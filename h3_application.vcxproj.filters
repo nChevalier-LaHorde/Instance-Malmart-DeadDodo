@@ -13,32 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\components">
-      <UniqueIdentifier>{837608b6-2d97-4ab1-97b7-8772b91b2adc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.c">
-      <Filter>Source Files\components</Filter>
+    <ClCompile Include="StartMenu.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.c">
-      <Filter>Source Files\components</Filter>
+    <ClCompile Include="Object.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Digide.c">
-      <Filter>Source Files\components</Filter>
+    <ClCompile Include="Monstere.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Clue.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="StartMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
+    <ClInclude Include="Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Digide.h">
+    <ClInclude Include="Monstere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Clue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
