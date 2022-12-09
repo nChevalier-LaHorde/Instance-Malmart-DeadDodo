@@ -165,11 +165,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="player.c" />
+    <ClCompile Include="Digide.c" />
+    <ClCompile Include="Inventory.c" />
+    <ClCompile Include="Player.c" />
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h" />
+    <ClInclude Include="Digide.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

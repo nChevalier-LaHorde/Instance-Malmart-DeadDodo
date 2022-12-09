@@ -35,7 +35,7 @@ void* SpriteComponent_CreateProperties(const char* texturePath, uint8_t anchor)
 	return properties;
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(SpriteComponent, H3Handle, Texture);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(SpriteComponent, H3Handle, Texture);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(SpriteComponent, EH3Anchor, Anchor);
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(SpriteComponent, SPRITECOMPONENT_TYPEID, H3Handle, Texture);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SpriteComponent, SPRITECOMPONENT_TYPEID, H3Handle, Texture);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SpriteComponent, SPRITECOMPONENT_TYPEID, EH3Anchor, Anchor);

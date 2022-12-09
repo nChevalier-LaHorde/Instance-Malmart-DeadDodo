@@ -1,7 +1,8 @@
-#include <player.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <components/spritecomponent.h>
+#include "Inventory.h"
+#include <Player.h>
 
 typedef struct
 {
@@ -10,6 +11,9 @@ typedef struct
 	float player_y;
 	float speed;
 	bool init;
+	H3Handle objTouch;
+	int playerOnCol;
+	int nbrObjTouch;
 } Player_Properties;
 
 void* Player_CreateProperties(H3Handle cam)
@@ -35,6 +39,9 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 32, 32, 0x22, false));
 		H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/player.png", A_Center | A_Middle));
 		H3_Object_Translate(object, 960, 540);
+
+		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object));
+
 		props->init = false;
 	}
 
@@ -56,7 +63,38 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	}
 }
 
+void playerOnCollision(H3Handle obj, SH3Collision col)
+{
+	SH3Component* component = H3_Object_GetComponent(obj, PLAYER_TYPEID);
+	Player_Properties* pe = (Player_Properties*)(component->properties);
+	if (col.other == NULL) {}
+
+
+	pe->objTouch = col.other;
+	pe->playerOnCol = 1;
+
+	pe->nbrObjTouch += 1;
+
+}
+
+void playerOnCollisionLeave(H3Handle obj, SH3Collision col)
+{
+	SH3Component* component = H3_Object_GetComponent(obj, PLAYER_TYPEID);
+	Player_Properties* pe = (Player_Properties*)(component->properties);
+
+
+	if (pe->nbrObjTouch < 2)
+	{
+		pe->objTouch = NULL;
+		pe->playerOnCol = 0;
+	}
+
+	pe->nbrObjTouch -= 1;
+}
+
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(Player, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(Player, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, H3Handle, objTouch);

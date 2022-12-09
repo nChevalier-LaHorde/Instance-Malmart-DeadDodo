@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
-#include<components/spritecomponent.h>
+#include <components/spritecomponent.h>
 #include <components/cameracomponent.h>
 #include <components/textcomponent.h>
 #include "player.h"
@@ -49,22 +49,20 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 {
 
 	InventoryComponent_Properties* p = (InventoryComponent_Properties*)properties;
-	p->recup = PlayerComponent_GetplayerOnCollisionEx(p->player);
-	printf("recup = %d\n", p->recup);
+	p->recup = Player_GetplayerOnColEx(p->player);
 	if (p->recup == 1)
 	{
 		if (H3_Input_IsKeyPressed(K_A))
 		{
 			if (p->stock1 == NULL && p->objRecup != NULL)
 			{
-				p->objRecup = PlayerComponent_GetobjTouchEx(p->player);
+				p->objRecup = Player_GetobjTouchEx(p->player);
 				p->stock1 = p->objRecup;
 				H3_Object_SetTranslation(p->stock1, -100, -100);
-				/*H3_Object_SetEnabled(p->objRecup, false);*/
 			}
 			else if (p->stock2 == NULL && p->objRecup != NULL)
 			{
-				p->objRecup = PlayerComponent_GetobjTouchEx(p->player);
+				p->objRecup = Player_GetobjTouchEx(p->player);
 				p->stock2 = p->objRecup;
 				H3_Object_SetTranslation(p->stock2, -100, -100);
 			}
@@ -95,5 +93,3 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 	}
 
 }
-
-
