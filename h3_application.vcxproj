@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Monstere.c" />
     <ClCompile Include="Object.c" />
@@ -176,6 +177,17 @@
     <ClInclude Include="Monstere.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="StartMenu.h" />
+=======
+    <ClCompile Include="src\bootMenu.c" />
+    <ClCompile Include="src\chooseCharacter.c" />
+    <ClCompile Include="src\credit.c" />
+    <ClCompile Include="src\main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\bootMenu.h" />
+    <ClInclude Include="include\chooseCharacter.h" />
+    <ClInclude Include="include\credit.h" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

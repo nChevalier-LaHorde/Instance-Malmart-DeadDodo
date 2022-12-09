@@ -1,5 +1,6 @@
 #include <h3.h>
 #include <stdio.h>
+<<<<<<< Updated upstream
 #include <time.h>
 #include <components/cameracomponent.h>
 #include <components/spritecomponent.h>
@@ -11,6 +12,12 @@
 #include <components/textcomponent.h>
 #include "StartMenu.h"
 #include "Object.h"
+=======
+#include <stdlib.h>
+#include <bootMenu.h>
+#include <credit.h>
+#include <chooseCharacter.h>
+>>>>>>> Stashed changes
 
 #ifndef NDEBUG
 # pragma comment(lib, "h3-s-d.lib")
@@ -18,8 +25,10 @@
 # pragma comment(lib, "h3-s.lib")
 #endif // !NDEBUG
 
+
 int main(int argc, char** argv)
 {
+<<<<<<< Updated upstream
 
 	srand(time(NULL));
 	int screen_x = 1920;
@@ -81,3 +90,46 @@ int main(int argc, char** argv)
 	return 0;
 }
 
+=======
+    int stateMenu = 1;
+
+    // WINDOW //
+    int height = 1080;
+    int width = 1920;
+    H3Handle h3 = H3_Init((SH3InitParams) {
+        .fullscreen = false,
+            .height = height,
+            .width = width,
+            .windowTitle = "Malmart"
+    });
+    H3Handle scene = H3_Scene_Create(h3, true);
+    bool stateWindow = true;
+
+    // boot ................. a implementer //
+    H3Handle boot = H3_Object_Create(scene, "boot", NULL);
+    H3_Object_AddComponent(boot, BOOTMENUCOMPONENT_CREATE(scene, stateMenu));
+
+    // credit ............... a implementer //
+    H3Handle credit = H3_Object_Create(scene, "credit", NULL);
+    H3_Object_AddComponent(credit, CREDITCOMPONENT_CREATE(scene, stateMenu));
+
+    //  menu character ...... a implementer//
+    H3Handle selectCharacter = H3_Object_Create(scene, "selectCharacter", NULL);
+    H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scene, stateMenu));
+
+    //bool destroySceneSelectCharacter = false;
+
+    // choose ............... a implementer //
+    //H3Handle boyCharacter = H3_Object_Create(scene, "boyCharacter", NULL);
+    //H3_Object_AddComponent(boot, CHARACTERCOMPONENT_CREATE(scene, stateMenu));
+
+
+    // LOOP //
+    do {
+
+        stateWindow = H3_DoFrame(h3, scene);
+    } while (stateWindow == true);
+
+    return 0;
+}
+>>>>>>> Stashed changes
