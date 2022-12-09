@@ -165,15 +165,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Inventory.c" />
+    <ClCompile Include="Clue.c" />
+    <ClCompile Include="Monstere.c" />
+    <ClCompile Include="Object.c" />
     <ClCompile Include="StartMenu.c" />
-    <ClCompile Include="Player.c" />
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Clue.h" />
+    <ClInclude Include="Monstere.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="StartMenu.h" />
-    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
