@@ -52,6 +52,7 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 	{
 		p->init = 1;
 		H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
+
 		H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3));
 	}
 	//printf("Time : %f\n",H3_GetTime());

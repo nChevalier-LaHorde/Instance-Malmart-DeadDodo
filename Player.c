@@ -34,7 +34,7 @@ void Player_Terminate(void* properties)
 
 void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties) {
 	Player_Properties* props = (Player_Properties*)properties;
-	
+
 	if (props->init) {
 		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 32, 32, 0x22, false));
 		H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/player.png", A_Center | A_Middle));

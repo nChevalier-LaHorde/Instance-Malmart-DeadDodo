@@ -132,7 +132,7 @@ void Digide_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	props->isbtn8 = H3_Button(h3, SpriteComponent_GetTextureEx(props->btn8), props->btn8x, props->btn8y, A_Center | A_Middle);
 	H3_Transform_GetPosition(H3_Object_GetTransform(props->btn9), &props->btn9x, &props->btn9y);
 	props->isbtn9 = H3_Button(h3, SpriteComponent_GetTextureEx(props->btn9), props->btn9x, props->btn9y, A_Center | A_Middle);
-	printf("%d", props->isbtnquit);
+	
 	if (props->isbtnquit) {
 		H3_Object_Destroy(object, true);
 	}

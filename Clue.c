@@ -31,7 +31,7 @@ void* ClueComponent_CreateProperties(H3Handle scn, H3Handle h3)
 
 	properties->init = 0;
 	properties->h3 = h3;
-	properties->display = 1;
+	properties->display = 0;
 	properties->scn = scn;
 	
 

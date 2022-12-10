@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <components/cameracomponent.h>
-#include <components/spritecomponent.h>
 #include <Player.h>
 #include <Digide.h>
 #include <math.h>
@@ -39,7 +38,8 @@ int main(int argc, char** argv)
 	int width = 100;
 	int height = 100;
 	bool scnTurn = true;
-	int iWantThis = 1;
+	bool exitGame = true;
+	int iWantThis = 0;
 	H3Handle scnMenu = H3_Scene_Create(h3, true);
 	H3Handle scn = H3_Scene_Create(h3, true);
 
@@ -49,14 +49,14 @@ int main(int argc, char** argv)
 	H3Handle second_obj = H3_Object_Create(scn, "second_obj", NULL);
 	H3_Object_AddComponent(second_obj, OBJECTCOMPONENT_CREATE(scn, h3));
 
-	H3Handle camera = H3_Object_Create(scene, "camera", NULL);
+	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
 	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
 
-	H3Handle player = H3_Object_Create(scene, "player", NULL);
+	H3Handle player = H3_Object_Create(scn, "player", NULL);
 	H3_Object_AddComponent(player, PLAYER_CREATE(camera));
 
-	H3Handle digide = H3_Object_Create(scene, "digide", NULL);
-	H3_Object_AddComponent(digide, DIGIDE_CREATE(scene, nbcode1, nbcode2, nbcode3, nbcode4));
+	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
+	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, nbcode1, nbcode2, nbcode3, nbcode4));
 
 
 
@@ -73,8 +73,13 @@ int main(int argc, char** argv)
 			scnTurn = H3_DoFrame(h3, scn);
 		}
 		
+		exitGame = SMComponent_GetstateBtnExitEx(first_obj);
+		if (SMComponent_GetstateBtnStartEx(first_obj))
+		{
+			iWantThis = 1;
+		}
 		
-	} while (scnTurn);
+	} while (scnTurn && exitGame == false);
 
 
 
