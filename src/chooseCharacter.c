@@ -75,7 +75,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             H3_Object_EnablePhysics(props->boySelect, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Middle | A_Center, false));
             H3_Object_SetTranslation(props->boySelect, props->spawnBoyCharacterPosX, props->spawnBoyCharacterPosY);
             H3_Object_SetEnabled(props->boySelect, false);
-                // boy description
+            // boy description
             props->boyDescription = H3_Object_Create2(props->h3, "boyDescription", NULL, 1);
             H3_Object_AddComponent(props->boyDescription, SPRITECOMPONENT_CREATE("assets/Choose character/boy_description.png", A_Left | A_Top));
             H3_Object_SetTranslation(props->boyDescription, props->spawnBoyCharacterPosX * 1.8 , props->spawnBoyCharacterPosY + 510);
@@ -93,7 +93,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             H3_Object_EnablePhysics(props->girlSelect, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Middle | A_Center, false));
             H3_Object_SetTranslation(props->girlSelect, props->spawnGirlCharacterPosX, props->spawnGirlCharacterPosY);
             H3_Object_SetEnabled(props->girlSelect, false);
-                // girl description
+            // girl description
             props->girlDescription = H3_Object_Create2(props->h3, "girlDescription", NULL, 1);
             H3_Object_AddComponent(props->girlDescription, SPRITECOMPONENT_CREATE("assets/Choose character/girl_description.png", A_Left | A_Top));
             H3_Object_SetTranslation(props->girlDescription, props->spawnGirlCharacterPosX * 1.2, props->spawnGirlCharacterPosY + 510);

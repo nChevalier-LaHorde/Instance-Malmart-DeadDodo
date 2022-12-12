@@ -42,7 +42,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/character.png", A_Center | A_Middle));
 		H3_Object_Translate(object, 960, 540);
 
-		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object));
+		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam));
 
 		props->init = false;
 	}

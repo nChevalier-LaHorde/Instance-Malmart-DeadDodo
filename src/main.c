@@ -86,14 +86,14 @@ int main(int argc, char** argv)
 
 	bool stateWindow = true;
 
-	//// boot ................. a implementer //
+	//// boot
 	H3Handle boot = H3_Object_Create(scnFirstLunch, "boot", NULL);
 	H3_Object_AddComponent(boot, BOOTMENUCOMPONENT_CREATE(scnFirstLunch, stateMenu));
 
-	//// credit ............... a implementer //
+	//// credit
 	H3Handle credit = H3_Object_Create(scnFirstLunch, "credit", NULL);
 
-	////  menu character ...... a implementer//
+	////  menu character
 	H3Handle selectCharacter = H3_Object_Create(scnMenuChoose, "selectCharacter", NULL);
 	H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scnMenuChoose, player));
 
@@ -118,9 +118,8 @@ int main(int argc, char** argv)
 	H3_Object_AddComponent(obj2, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
 	H3_Object_AddComponent(obj3, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
 	H3_Object_AddComponent(obj4, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
-
 	
-	H3_Object_EnablePhysics(obj1, H3_BOX_COLLIDER(2, 50, 50, A_Middle+A_Center, true));
+	H3_Object_EnablePhysics(obj1, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
 	H3_Object_EnablePhysics(obj2, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
 	H3_Object_EnablePhysics(obj3, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
 	H3_Object_EnablePhysics(obj4, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
