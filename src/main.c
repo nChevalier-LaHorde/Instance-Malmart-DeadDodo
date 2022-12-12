@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 	int height = 100;
 	bool scnTurn = true;
 	bool exitGame = true;
-	int iWantThis = 0; //Parameter to know which scene should be used
+	int iWantThis = 2; //Parameter to know which scene should be used
 
 	H3Handle scnFirstLunch = H3_Scene_Create(h3, true);
 	H3Handle scnMenu = H3_Scene_Create(h3, true);
