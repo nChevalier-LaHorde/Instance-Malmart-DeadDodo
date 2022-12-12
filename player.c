@@ -51,6 +51,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
 
 	H3_Object_SetVelocity(object, 0, 0);
+
 	if (H3_Input_IsKeyDown(K_Right)) {
 		H3_Object_AddVelocity(object, props->speed, 0);
 	}

@@ -11,7 +11,7 @@ typedef struct
 	int init;
 	H3Handle btnStart; bool stateBtnStart; float x_BtnStart; float y_BtnStart;
 	H3Handle btnPlayerChoose; bool stateBtnPlayerChoose; H3Handle btnExit; bool stateBtnExit;
-	H3Handle h3; H3Handle scn; H3Handle nameOfGame; H3Handle map; H3Handle obj_map; H3Handle blurring;// floutage
+	H3Handle h3; H3Handle scn; H3Handle nameOfGame; H3Handle map; H3Handle obj_map1; H3Handle obj_map2; H3Handle obj_map3; H3Handle obj_map4; H3Handle blurring;// floutage
 	H3Handle cam; float cx; float cy; float vcx; float vcy; float slewRate;/*Vittesse de blayage de la map sur le menu de démarage*/
 } SMComponent_Properties;
 
@@ -37,21 +37,24 @@ void* SMComponent_CreateProperties(H3Handle h3, H3Handle scn)
 	//cam
 	properties->cam = H3_Object_Create(properties->scn, "cam", NULL);
 	//btn Start
-	properties->btnStart = H3_Object_Create2(properties->scn, "btnStart", NULL,2);
+	properties->btnStart = H3_Object_Create2(properties->scn, "btnStart", NULL,5);
 	properties->stateBtnStart = false;
 	properties->x_BtnStart = 960;
 	properties->y_BtnStart = 540;
 	// btn Player choose
-	properties->btnPlayerChoose = H3_Object_Create2(properties->scn, "btnPlayerChoose", NULL, 2);
+	properties->btnPlayerChoose = H3_Object_Create2(properties->scn, "btnPlayerChoose", NULL, 5);
 	properties->stateBtnPlayerChoose = false;
 	// btn Exit
-	properties->btnExit = H3_Object_Create2(properties->scn, "btnExit", NULL, 2);
+	properties->btnExit = H3_Object_Create2(properties->scn, "btnExit", NULL, 5);
 	properties->stateBtnExit = false;
 
 	// Other
-	properties->nameOfGame = H3_Object_Create2(properties->scn, "nameOfGame", NULL,2);
-	properties->map = H3_Map_Load("assets/map_test.tmx");
-	properties->obj_map = H3_Object_Create(properties->scn, "obj_map", NULL);
+	properties->nameOfGame = H3_Object_Create2(properties->scn, "nameOfGame", NULL,5);
+	properties->map = H3_Map_Load("assets/MapMagasin.tmx");
+	properties->obj_map1 = H3_Object_Create2(properties->scn, "obj_map1", NULL,0);
+	properties->obj_map2 = H3_Object_Create2(properties->scn, "obj_map2", NULL,1);
+	properties->obj_map3 = H3_Object_Create2(properties->scn, "obj_map3", NULL,2);
+	properties->obj_map4 = H3_Object_Create2(properties->scn, "obj_map4", NULL,4);
 	properties->blurring = H3_Object_Create2(properties->scn, "blurring", properties->cam, 1);
 	properties->slewRate = 100;
 	
@@ -77,7 +80,10 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 		H3_Object_EnablePhysics(p->cam, H3_BOX_COLLIDER(2, 50, 50, A_Top | A_Middle, true));
 		
 
-		H3_Object_AddComponent(p->obj_map, MAPLAYERCOMPONENT_CREATE(p->map, "Layer1"));
+		H3_Object_AddComponent(p->obj_map1, MAPLAYERCOMPONENT_CREATE(p->map, "map"));
+		H3_Object_AddComponent(p->obj_map2, MAPLAYERCOMPONENT_CREATE(p->map, "interiorLayer"));
+		H3_Object_AddComponent(p->obj_map3, MAPLAYERCOMPONENT_CREATE(p->map, "interiorLayer2"));
+		H3_Object_AddComponent(p->obj_map4, MAPLAYERCOMPONENT_CREATE(p->map, "interiorLayer3"));
 		
 		H3_Object_SetVelocity(p->cam, 100, 100);
 
