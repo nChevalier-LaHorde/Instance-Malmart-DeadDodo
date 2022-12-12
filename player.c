@@ -38,8 +38,8 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	Player_Properties* props = (Player_Properties*)properties;
 
 	if (props->init) {
-		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 32, 32, 0x22, false));
-		H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/player.png", A_Center | A_Middle));
+		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 29, 38, 0x22, false));
+		H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/character.png", A_Center | A_Middle));
 		H3_Object_Translate(object, 960, 540);
 
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object));

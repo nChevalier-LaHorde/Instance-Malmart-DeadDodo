@@ -58,6 +58,26 @@ int main(int argc, char** argv)
 	////////////////////////////
 	int stateMenu = 0;
 
+	//create map 
+	H3Handle map = H3_Map_Load("assets/MapMagasin.tmx");
+	H3_Map_RegisterObjectLayerForPhysicsInScene(scn, map, "collider");
+
+	H3Handle mapLayer = H3_Object_Create(scn, "map1", NULL);
+	H3_Object_AddComponent(mapLayer, MAPLAYERCOMPONENT_CREATE(map, "map"));
+	H3_Object_SetRenderOrder(mapLayer, 0);
+
+	H3Handle mapLayer1 = H3_Object_Create(scn, "map2", NULL);
+	H3_Object_AddComponent(mapLayer1, MAPLAYERCOMPONENT_CREATE(map, "interiorLayer"));
+	H3_Object_SetRenderOrder(mapLayer1, 1);
+
+	H3Handle mapLayer2 = H3_Object_Create(scn, "map3", NULL);
+	H3_Object_AddComponent(mapLayer2, MAPLAYERCOMPONENT_CREATE(map, "interiorLayer2"));
+	H3_Object_SetRenderOrder(mapLayer2, 2);
+
+	H3Handle mapLayer3 = H3_Object_Create(scn, "map4", NULL);
+	H3_Object_AddComponent(mapLayer3, MAPLAYERCOMPONENT_CREATE(map, "interiorLayer3"));
+	H3_Object_SetRenderOrder(mapLayer3, 4);
+
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
 	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
 
