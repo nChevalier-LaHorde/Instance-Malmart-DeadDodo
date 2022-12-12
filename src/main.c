@@ -79,7 +79,7 @@ int main(int argc, char** argv)
 	H3_Object_SetRenderOrder(mapLayer3, 4);
 
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
-	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
+	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x/3, screen_y/3));
 
 	H3Handle player = H3_Object_Create(scn, "player", NULL);
 	H3_Object_AddComponent(player, PLAYER_CREATE(camera));
