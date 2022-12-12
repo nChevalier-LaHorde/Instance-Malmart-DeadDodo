@@ -18,6 +18,10 @@ typedef struct
 	H3Handle stock2;
 	H3Handle stock3;
 
+	H3Handle cam;
+	float camX;
+	float camY;
+
 } InventoryComponent_Properties;
 
 
@@ -31,7 +35,7 @@ void InventoryComponent_Terminate(void* properties)
 
 
 
-void* InventoryComponent_CreateProperties(H3Handle player)
+void* InventoryComponent_CreateProperties(H3Handle player, H3Handle cam)
 {
 	InventoryComponent_Properties* properties = malloc(sizeof(InventoryComponent_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
@@ -42,6 +46,7 @@ void* InventoryComponent_CreateProperties(H3Handle player)
 	properties->stock3 = NULL;
 	properties->recup = 0;
 	properties->player = player;
+	properties->cam = cam;
 
 
 	return properties;
@@ -52,7 +57,10 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 {
 
 	InventoryComponent_Properties* p = (InventoryComponent_Properties*)properties;
+
 	p->recup = Player_GetplayerOnColEx(p->player);
+	H3_Transform_GetPosition(H3_Object_GetTransform(p->cam), &p->camX, &p->camY);
+
 	if (p->recup == 1)
 	{
 	
@@ -66,19 +74,18 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 			{
 				p->objRecup = Player_GetobjTouchEx(p->player);
 				p->stock1 = p->objRecup;
-				H3_Object_SetTranslation(p->stock1, -100, -100);
 			}
 			else if (p->stock2 == NULL && p->objRecup != NULL)
 			{
 				p->objRecup = Player_GetobjTouchEx(p->player);
 				p->stock2 = p->objRecup;
-				H3_Object_SetTranslation(p->stock2, -100, -100);
+				
 			}
 			else if (p->stock3 == NULL && p->objRecup != NULL && Player_GetspotInventoryEx(object) == 3)
 			{
 				p->objRecup = Player_GetobjTouchEx(p->player);
 				p->stock3 = p->objRecup;
-				H3_Object_SetTranslation(p->stock3, -100, -100);
+				//H3_Object_SetTranslation(p->stock3, -p->camX / (1920 / 2), -p->camY / (1080 / 2));
 			}
 
 
@@ -110,6 +117,33 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 			}
 
 		}
+	}
+
+	printf("%d \n", p->recup);
+
+	// move inventory
+	if (p->stock1 != NULL) 
+	{
+		H3_Object_SetTranslation(p->stock1, p->camX + 280, p->camY - 50);
+	}
+	if (p->stock2 != NULL)
+	{
+		H3_Object_SetTranslation(p->stock2, p->camX + 280, p->camY + 25);
+	}
+	if (p->stock3 != NULL)
+	{
+		H3_Object_SetTranslation(p->stock3, p->camX + 280, p->camY + 100);
+	}
+
+
+
+	if (H3_Input_IsKeyPressed(K_Q))
+	{
+
+	}
+	else if (H3_Input_IsKeyPressed(K_D))
+	{
+		
 	}
 
 }

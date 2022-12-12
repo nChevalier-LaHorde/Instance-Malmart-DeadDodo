@@ -7,7 +7,7 @@
 
 H3_CAPI_BEGIN_BLOCK
 void InventoryComponent_Terminate(void* properties);
-void* InventoryComponent_CreateProperties(H3Handle player);
+void* InventoryComponent_CreateProperties(H3Handle player, H3Handle cam);
 void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
 
@@ -15,14 +15,14 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 H3_CAPI_END_BLOCK
 
 
-#define INVENTORYCOMPONENT_CREATE(PLAYER)                                          \
+#define INVENTORYCOMPONENT_CREATE(PLAYER, CAM)                                          \
 	(SH3Component) {                                                            \
 		.Init               = NULL,                                                      \
 		.Terminate          = InventoryComponent_Terminate,                                 \
 		.Update             = UpInventory,                                                      \
 		.isInitialized      = false,                                                     \
 		.componentType      = INVENTORYCOMPONENT_TYPEID,									 \
-		.properties         = InventoryComponent_CreateProperties(PLAYER) \
+		.properties         = InventoryComponent_CreateProperties(PLAYER, CAM) \
 	}
 
 #endif /* _H3_COMPONENTS_SPRITECOMPONENT_H_ */
