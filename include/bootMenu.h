@@ -13,7 +13,7 @@ void BootMenuComponent_Terminate(void* properties);
 void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 void* BootMenuComponent_CreateProperties(H3Handle h3, int stateMenu);
 
-H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(BootMenuComponent, int, stateMenu);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(BootMenuComponent, int, wayPoint);
 
 H3_CAPI_END_BLOCK
 

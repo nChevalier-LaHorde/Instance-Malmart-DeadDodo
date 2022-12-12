@@ -48,7 +48,7 @@ void UpMonstere(H3Handle h3, H3Handle object, SH3Transform* transform, float t, 
 	}
 	if (H3_GetTime() - p->timeUseMonstere > 6*4)
 	{
-		p->oneTime = 1;
+		p->oneTime = 0;
 		p->timeUseMonstere = 0;
 		p->useMonstere = 0;
 		ObjectComponent_SetmonstereEffectEx(p->obj, 0);

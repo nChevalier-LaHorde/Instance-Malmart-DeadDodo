@@ -165,35 +165,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-<<<<<<< Updated upstream
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Digide.c" />
     <ClCompile Include="Inventory.c" />
     <ClCompile Include="Monstere.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="Player.c" />
+    <ClCompile Include="src\bootMenu.c" />
+    <ClCompile Include="src\chooseCharacter.c" />
+    <ClCompile Include="src\credit.c" />
     <ClCompile Include="StartMenu.c" />
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clue.h" />
     <ClInclude Include="Digide.h" />
-    <ClInclude Include="Inventory.h" />
-    <ClInclude Include="Monstere.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="StartMenu.h" />
-=======
-    <ClCompile Include="src\bootMenu.c" />
-    <ClCompile Include="src\chooseCharacter.c" />
-    <ClCompile Include="src\credit.c" />
-    <ClCompile Include="src\main.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\bootMenu.h" />
     <ClInclude Include="include\chooseCharacter.h" />
     <ClInclude Include="include\credit.h" />
->>>>>>> Stashed changes
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Monstere.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="StartMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

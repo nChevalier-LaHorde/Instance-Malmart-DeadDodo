@@ -12,6 +12,8 @@ void CreditComponent_Terminate(void* properties);
 void CreditComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 void* CreditComponent_CreateProperties(H3Handle h3, int stateMenu);
 
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(CreditComponent, int, wayPoint);
+
 H3_CAPI_END_BLOCK
 
 #define CREDITCOMPONENT_CREATE(H3, STATEMENU)							\

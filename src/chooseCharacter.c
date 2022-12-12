@@ -4,6 +4,7 @@
 #include <math.h>
 #include <chooseCharacter.h>
 #include <bootMenu.h>
+#include <player.h>
 
 typedef struct
 {
@@ -13,6 +14,7 @@ typedef struct
 
     // important
     H3Handle h3;
+    H3Handle player;
     float speedX;
     float speedY;
     int wayPoint;
@@ -183,6 +185,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 printf("boy character select %d\n", props->select);
                 // animation exit select chamber character
                 props->select = 10;
+                props->wayPoint = 1;
                 // boy action
                 H3_Object_SetEnabled(props->boyCharacter, true);
                 H3_Object_SetEnabled(props->boyDescription, true);
@@ -190,6 +193,9 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 // girl action
                 H3_Object_SetEnabled(props->girlCharacter, false);
                 H3_Object_SetEnabled(props->girlDescription, false);
+                // Set Player Parameters
+                Player_SetspeedEx(props->player, 200);
+                Player_SetspotInventoryEx(props->player, 2);
                 break;
                
             // girl effect
@@ -197,19 +203,25 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 printf("girl character select %d\n", props->select);
                 // animation exit select chamber character
                 props->select = 10;
+                props->wayPoint = 1;
                 // boy select
                 H3_Object_SetEnabled(props->boyCharacter, false);
                 H3_Object_SetEnabled(props->boyDescription, false);
 
+
+                
                 // girl action
                 H3_Object_SetEnabled(props->girlCharacter, true);
                 H3_Object_SetEnabled(props->girlDescription, true);
+                // Set Player Parameters
+                Player_SetspeedEx(props->player, 100);
+                Player_SetspotInventoryEx(props->player, 3);
 
                 break;
 
             // enable to start
             case 10:
-                printf("RETURN MENU");
+                props->wayPoint = 1;
                 break;
 
             default:
@@ -242,12 +254,13 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
 }
 
 
-void* CharacterComponent_CreateProperties(H3Handle h3, int stateMenu)
+void* CharacterComponent_CreateProperties(H3Handle h3, H3Handle player)
 {
     CharacterComponent_Properties* properties = malloc(sizeof(CharacterComponent_Properties));
     H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 
     properties->h3 = h3;
+    properties->player = player;
     properties->init = 0;
     properties->stateMenu = 1;
 
@@ -274,3 +287,5 @@ void* CharacterComponent_CreateProperties(H3Handle h3, int stateMenu)
 
     return properties;
 }
+
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(CharacterComponent, CHARACTERCOMPONENT_TYPEID, int, wayPoint);

@@ -1,6 +1,5 @@
 #include <h3.h>
 #include <stdio.h>
-<<<<<<< Updated upstream
 #include <time.h>
 #include <components/cameracomponent.h>
 #include <Player.h>
@@ -11,12 +10,12 @@
 #include <components/textcomponent.h>
 #include "StartMenu.h"
 #include "Object.h"
-=======
 #include <stdlib.h>
 #include <bootMenu.h>
 #include <credit.h>
 #include <chooseCharacter.h>
->>>>>>> Stashed changes
+#include "Clue.h"
+
 
 #ifndef NDEBUG
 # pragma comment(lib, "h3-s-d.lib")
@@ -27,7 +26,6 @@
 
 int main(int argc, char** argv)
 {
-<<<<<<< Updated upstream
 
 	srand(time(NULL));
 	int screen_x = 1920;
@@ -48,21 +46,74 @@ int main(int argc, char** argv)
 	int height = 100;
 	bool scnTurn = true;
 	bool exitGame = true;
-	int iWantThis = 0;
+	int iWantThis = 0; //Parameter to know which scene should be used
+
+	H3Handle scnFirstLunch = H3_Scene_Create(h3, true);
 	H3Handle scnMenu = H3_Scene_Create(h3, true);
+	H3Handle scnMenuChoose = H3_Scene_Create(h3, true);
 	H3Handle scn = H3_Scene_Create(h3, true);
 
-	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);
-	H3_Object_AddComponent(first_obj, SMCOMPONENT_CREATE(h3, scnMenu));
+	int dontBtnMenu = 0;
 
-	H3Handle second_obj = H3_Object_Create(scn, "second_obj", NULL);
-	H3_Object_AddComponent(second_obj, OBJECTCOMPONENT_CREATE(scn, h3));
+	////////////////////////////
+	int stateMenu = 0;
 
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
 	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
 
 	H3Handle player = H3_Object_Create(scn, "player", NULL);
 	H3_Object_AddComponent(player, PLAYER_CREATE(camera));
+
+	bool stateWindow = true;
+
+	//// boot ................. a implementer //
+	H3Handle boot = H3_Object_Create(scnFirstLunch, "boot", NULL);
+	H3_Object_AddComponent(boot, BOOTMENUCOMPONENT_CREATE(scnFirstLunch, stateMenu));
+
+	//// credit ............... a implementer //
+	H3Handle credit = H3_Object_Create(scnFirstLunch, "credit", NULL);
+
+	////  menu character ...... a implementer//
+	H3Handle selectCharacter = H3_Object_Create(scnMenuChoose, "selectCharacter", NULL);
+	H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scnMenuChoose, player));
+
+	H3Handle selectCharacterCamera = H3_Object_Create(scnMenuChoose, "selectCharacterCamera", NULL);
+	H3_Object_AddComponent(selectCharacterCamera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
+
+
+	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);
+	H3_Object_AddComponent(first_obj, SMCOMPONENT_CREATE(h3, scnMenu));
+
+	H3Handle second_obj = H3_Object_Create(scn, "second_obj", NULL);
+	H3_Object_AddComponent(second_obj, OBJECTCOMPONENT_CREATE(scn, h3, camera));
+
+
+	////////OBJECT TEST/////////////////
+	H3Handle obj1 = H3_Object_Create(scn, "obj1", NULL);
+	H3Handle obj2 = H3_Object_Create(scn, "obj2", NULL);
+	H3Handle obj3 = H3_Object_Create(scn, "obj3", NULL);
+	H3Handle obj4 = H3_Object_Create(scn, "obj4", NULL);
+
+	H3_Object_AddComponent(obj1, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
+	H3_Object_AddComponent(obj2, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
+	H3_Object_AddComponent(obj3, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
+	H3_Object_AddComponent(obj4, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
+
+	
+	H3_Object_EnablePhysics(obj1, H3_BOX_COLLIDER(2, 50, 50, A_Middle+A_Center, true));
+	H3_Object_EnablePhysics(obj2, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
+	H3_Object_EnablePhysics(obj3, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
+	H3_Object_EnablePhysics(obj4, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
+
+	H3_Object_SetTranslation(obj1, screen_x/2, screen_y/2);
+	H3_Object_SetTranslation(obj2, 900, 800);
+	H3_Object_SetTranslation(obj3, 1000, 800);
+	H3_Object_SetTranslation(obj4, 1100, 800);
+
+	H3_Object_AddComponent(obj1, CLUECOMPONENT_CREATE(scn, h3, camera));
+
+	///////////////////////////////////////
+
 
 	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
 	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, nbcode1, nbcode2, nbcode3, nbcode4));
@@ -73,20 +124,66 @@ int main(int argc, char** argv)
 	float a; float b;
 	do
 	{	
-		if (iWantThis == 0)
-		{
-			scnTurn = H3_DoFrame(h3, scnMenu);
-		}
-		if (iWantThis == 1)
-		{
-			scnTurn = H3_DoFrame(h3, scn);
-		}
-		
+
 		exitGame = SMComponent_GetstateBtnExitEx(first_obj);
 		if (SMComponent_GetstateBtnStartEx(first_obj))
 		{
 			iWantThis = 1;
 		}
+		if (SMComponent_GetstateBtnPlayerChooseEx(first_obj)&& dontBtnMenu == 0)
+		{
+			iWantThis = 4;
+		}
+
+
+		if (iWantThis == 0)
+		{
+			scnTurn = H3_DoFrame(h3, scnMenu);
+			dontBtnMenu = 0;
+			CharacterComponent_SetwayPointEx(selectCharacter,0);
+		}
+		if (iWantThis == 1)
+		{
+			scnTurn = H3_DoFrame(h3, scn);
+		}
+		if (iWantThis == 2)
+		{
+			scnTurn = H3_DoFrame(h3, scnFirstLunch);
+			if (BootMenuComponent_GetwayPointEx(boot) == 1)
+			{
+				H3_Object_Destroy(boot, true);
+				iWantThis =3;
+			}
+				
+		}
+		if (iWantThis == 3)
+		{
+			scnTurn = H3_DoFrame(h3, scnFirstLunch);
+			if (stateMenu == 0)
+			{
+				stateMenu = 3;
+
+				H3_Object_AddComponent(credit, CREDITCOMPONENT_CREATE(scnFirstLunch, stateMenu));
+			}
+			if (CreditComponent_GetwayPointEx(credit) == 1)
+			{
+				H3_Scene_Destroy(scnFirstLunch);
+				iWantThis = 0;
+			}
+			
+		}
+		if (iWantThis == 4)
+		{
+			scnTurn = H3_DoFrame(h3, scnMenuChoose);
+			H3_Object_SetTranslation(selectCharacterCamera, 960, 540);
+			if (CharacterComponent_GetwayPointEx(selectCharacter) == 1)
+			{
+				iWantThis = 0;
+				dontBtnMenu = 1;
+			}
+		}
+		
+
 		
 	} while (scnTurn && exitGame == false);
 
@@ -95,46 +192,5 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-=======
-    int stateMenu = 1;
-
-    // WINDOW //
-    int height = 1080;
-    int width = 1920;
-    H3Handle h3 = H3_Init((SH3InitParams) {
-        .fullscreen = false,
-            .height = height,
-            .width = width,
-            .windowTitle = "Malmart"
-    });
-    H3Handle scene = H3_Scene_Create(h3, true);
-    bool stateWindow = true;
-
-    // boot ................. a implementer //
-    H3Handle boot = H3_Object_Create(scene, "boot", NULL);
-    H3_Object_AddComponent(boot, BOOTMENUCOMPONENT_CREATE(scene, stateMenu));
-
-    // credit ............... a implementer //
-    H3Handle credit = H3_Object_Create(scene, "credit", NULL);
-    H3_Object_AddComponent(credit, CREDITCOMPONENT_CREATE(scene, stateMenu));
-
-    //  menu character ...... a implementer//
-    H3Handle selectCharacter = H3_Object_Create(scene, "selectCharacter", NULL);
-    H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scene, stateMenu));
-
-    //bool destroySceneSelectCharacter = false;
-
-    // choose ............... a implementer //
-    //H3Handle boyCharacter = H3_Object_Create(scene, "boyCharacter", NULL);
-    //H3_Object_AddComponent(boot, CHARACTERCOMPONENT_CREATE(scene, stateMenu));
 
 
-    // LOOP //
-    do {
-
-        stateWindow = H3_DoFrame(h3, scene);
-    } while (stateWindow == true);
-
-    return 0;
-}
->>>>>>> Stashed changes

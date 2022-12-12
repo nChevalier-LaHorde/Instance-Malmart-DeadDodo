@@ -94,7 +94,7 @@ void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transf
             //props->wayPoint = 0;
             printf("Way Point : %d\n", props->wayPoint);
             //BootMenuComponent_SetstateMenuEx(props->stateMenu, 3);
-            props->stateMenu = 3;
+            props->wayPoint = 1;
             
             /*H3_Object_SetTranslation(props->bootLogoMenu, props->spawnPosX, props->spawnPosY);
             H3_Object_SetTranslation(props->bootLogoProjet, props->spawnPosX + 1000, props->spawnPosY);
@@ -124,4 +124,4 @@ void* BootMenuComponent_CreateProperties(H3Handle h3, int stateMenu)
     return properties;
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(BootMenuComponent, BOOTMENUCOMPONENT_TYPEID, int, stateMenu);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(BootMenuComponent, BOOTMENUCOMPONENT_TYPEID, int, wayPoint);

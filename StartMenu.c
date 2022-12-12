@@ -130,5 +130,6 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 
 
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, SMCOMPONENT_TYPEID, bool, stateBtnStart);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, SMCOMPONENT_TYPEID, bool, stateBtnPlayerChoose);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, SMCOMPONENT_TYPEID, bool, stateBtnExit);
 

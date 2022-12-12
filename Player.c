@@ -10,6 +10,7 @@ typedef struct
 	float player_x;
 	float player_y;
 	float speed;
+	int spotInventory;
 	bool init;
 	H3Handle objTouch;
 	int playerOnCol;
@@ -20,9 +21,10 @@ void* Player_CreateProperties(H3Handle cam)
 {
 	Player_Properties* properties = malloc(sizeof(Player_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
-	properties->speed = 100;
+	properties->speed = 200;
 	properties->cam = cam;
 	properties->init = true;
+	properties->spotInventory = 2;
 	return properties;
 }
 
@@ -96,5 +98,7 @@ H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(Player, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(Player, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, speed);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, spotInventory);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, H3Handle, objTouch);
