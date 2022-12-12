@@ -7,11 +7,12 @@
 #include <components/cameracomponent.h>
 #include "Monstere.h"
 #include "Clue.h"
+#include "Timer.h"
 
 typedef struct
 {
-	H3Handle monstere; H3Handle scn; H3Handle cam; float timerTiredness; float percentTiredness; float condition; int monstereEffect; int init;
-	H3Handle paperClue; H3Handle h3; H3Handle fatigueBarOutline; H3Handle fatigueBarInline; float timeLagTiredness; float cX; float cY; int* scnLunch;
+	H3Handle monstere; H3Handle scn; H3Handle cam; float condition; int monstereEffect; int init;
+	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart;
 
 } ObjectComponent_Properties;
 
@@ -37,12 +38,12 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->cam = cam;
 	properties->monstere = H3_Object_Create(scn, "monstere", NULL);
 	properties->paperClue = H3_Object_Create(scn, "paperClue", NULL);
-	properties->fatigueBarInline = H3_Object_Create2(scn, "fatigueBarInline", NULL, 5);
-	properties->fatigueBarOutline = H3_Object_Create2(scn, "fatigueBarOutline", NULL, 6);
+	properties->malmart = H3_Object_Create2(scn, "malmart", NULL, 2);
 
-	properties->percentTiredness = 0;
+
+
 	properties->monstereEffect = 0;
-	properties->timeLagTiredness = 0;
+
 	properties->scnLunch = scnLunch;
 
 	return properties;
@@ -52,35 +53,20 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 {
 	ObjectComponent_Properties* p = (ObjectComponent_Properties*)properties;
 	H3_Transform_GetPosition(H3_Object_GetTransform(p->cam), &p->cX, &p->cY);
-	if (p->init == 0 && *p->scnLunch == 1)
+	if (*p->scnLunch == 1)
 	{
-		p->init = 1;
-		H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
-		H3_Object_AddComponent(p->fatigueBarInline, SPRITECOMPONENT_CREATE("assets/barreFatigue.png", A_Center+A_Left));
-		H3_Object_AddComponent(p->fatigueBarOutline, SPRITECOMPONENT_CREATE("assets/contour_barre_fatigue.png", A_Center + A_Left));
-		p->timerTiredness = H3_GetTime() * 10;
-		//H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
-	}
+		if (p->init == 0)
+		{
+			p->init = 1;
+			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
+			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center+A_Middle));
+			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
+			H3_Object_EnablePhysics(p->malmart, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 	
-	//printf("Time : %f\n",H3_GetTime());
-	//printf("Time in game : %f\n", H3_GetTime() * 10);
-	//printf("Time tiredness : %f\n", p->timerTiredness);
-	if (H3_GetTime() - p->timerTiredness > 6 && p->monstereEffect == 0)
-	{
-		p->timerTiredness = H3_GetTime();
-		p->percentTiredness += 10;
+			//H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
+		}
+		H3_Object_SetTranslation(p->malmart, 1260, 1050);
 	}
-	else if (H3_GetTime() - p->timerTiredness > 6 && p->monstereEffect == 1)
-	{
-		p->timerTiredness = H3_GetTime();
-		p->percentTiredness += 2.5;
-	}
-	p->timeLagTiredness = 500 * p->percentTiredness / 100;
-
-	H3_Object_SetTranslation(p->fatigueBarOutline, p->cX + 153, p->cY - 180);
-	H3_Object_SetTranslation(p->fatigueBarInline, p->cX + p->timeLagTiredness+153, p->cY-180);
-	//printf("Time in game with monstere : %f\n", H3_GetTime() * 10/4);
-	printf("percent Tiredness : %f", p->percentTiredness);
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);
+	H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);

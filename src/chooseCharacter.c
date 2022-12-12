@@ -194,7 +194,8 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 H3_Object_SetEnabled(props->girlCharacter, false);
                 H3_Object_SetEnabled(props->girlDescription, false);
                 // Set Player Parameters
-                Player_SetspeedEx(props->player, 200);
+                Player_SetwalkEx(props->player, 200);
+                Player_SetrunEx(props->player, 250);
                 Player_SetspotInventoryEx(props->player, 2);
                 break;
                
@@ -214,7 +215,8 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 H3_Object_SetEnabled(props->girlCharacter, true);
                 H3_Object_SetEnabled(props->girlDescription, true);
                 // Set Player Parameters
-                Player_SetspeedEx(props->player, 100);
+                Player_SetwalkEx(props->player, 100);
+                Player_SetrunEx(props->player, 150);
                 Player_SetspotInventoryEx(props->player, 3);
 
                 break;

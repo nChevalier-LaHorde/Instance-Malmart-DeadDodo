@@ -59,8 +59,6 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 	H3_Object_SetTranslation(p->paper, p->px , p->py);
 
 
-	printf("X : %f\n", p->px + 270);
-	printf("Y : %f\n", p->py - 120);
 	p->exit = H3_Input_IsKeyPressed(K_Escape);
 	if (p->display == 1)
 	{

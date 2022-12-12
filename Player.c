@@ -10,6 +10,8 @@ typedef struct
 	float player_x;
 	float player_y;
 	float speed;
+	float run;
+	float walk;
 	int spotInventory;
 	bool init;
 	H3Handle objTouch;
@@ -22,6 +24,8 @@ void* Player_CreateProperties(H3Handle cam)
 	Player_Properties* properties = malloc(sizeof(Player_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 	properties->speed = 200;
+	properties->run = 250;
+	properties->walk = 200;
 	properties->cam = cam;
 	properties->init = true;
 	properties->spotInventory = 2;
@@ -51,6 +55,15 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
 
 	H3_Object_SetVelocity(object, 0, 0);
+
+	if (H3_Input_IsKeyDown(K_Shift))
+	{
+		props->speed = props->run;
+	}
+	else
+	{
+		props->speed = props->walk;
+	}
 
 	if (H3_Input_IsKeyDown(K_Right)) {
 		H3_Object_AddVelocity(object, props->speed, 0);
@@ -99,7 +112,8 @@ H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(Player, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(Player, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, speed);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, walk);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, run);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, spotInventory);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, H3Handle, objTouch);

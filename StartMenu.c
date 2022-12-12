@@ -96,7 +96,7 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 
 	//printf("CAM : %f /// %f\n", p->cx, p->cy);
 	//printf("BTN : %f /// %f\n", p->x_BtnStart, p->y_BtnStart);
-	p->stateBtnStart = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnStart), p->x_BtnStart, p->y_BtnStart, A_Center + A_Middle);
+	p->stateBtnStart = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnStart), p->x_BtnStart, p->y_BtnStart-50, A_Center + A_Middle);
 	p->stateBtnPlayerChoose = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnPlayerChoose), p->x_BtnStart, p->y_BtnStart+250, A_Center + A_Middle);
 	p->stateBtnExit = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnExit), p->x_BtnStart+850, p->y_BtnStart + 400, A_Center + A_Middle);
 
