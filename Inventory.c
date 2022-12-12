@@ -124,15 +124,15 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 	// move inventory
 	if (p->stock1 != NULL) 
 	{
-		H3_Object_SetTranslation(p->stock1, p->camX + (1920 / 2) - 300, p->camY + (1080 / 2) - 150);
+		H3_Object_SetTranslation(p->stock1, p->camX + 280, p->camY - 50);
 	}
 	if (p->stock2 != NULL)
 	{
-		H3_Object_SetTranslation(p->stock2, p->camX + (1920 / 2) - 200, p->camY + (1080 / 2) - 150);
+		H3_Object_SetTranslation(p->stock2, p->camX + 280, p->camY + 25);
 	}
 	if (p->stock3 != NULL)
 	{
-		H3_Object_SetTranslation(p->stock3, p->camX + (1920 / 2) - 100, p->camY + (1080 / 2) - 150);
+		H3_Object_SetTranslation(p->stock3, p->camX + 280, p->camY + 100);
 	}
 
 

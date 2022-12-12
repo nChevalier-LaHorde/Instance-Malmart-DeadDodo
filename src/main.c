@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 	H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scnMenuChoose, player));
 
 	H3Handle selectCharacterCamera = H3_Object_Create(scnMenuChoose, "selectCharacterCamera", NULL);
-	H3_Object_AddComponent(selectCharacterCamera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
+	H3_Object_AddComponent(selectCharacterCamera, CAMERACOMPONENT_CREATE(screen_x / 3, screen_y / 3));
 
 
 	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);
