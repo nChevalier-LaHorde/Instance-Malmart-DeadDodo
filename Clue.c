@@ -47,7 +47,7 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 	{
 		p->init = 1;
 		p->paper = H3_Object_Create(p->scn, "paper", NULL);
-		p->btnQuit = H3_Object_Create(p->scn, "btnQuit", NULL);
+		p->btnQuit = H3_Object_Create2(p->scn, "btnQuit", NULL,7);
 
 		H3_Object_AddComponent(p->paper, SPRITECOMPONENT_CREATE("assets/CluePaper.png", A_Center+A_Middle));
 		H3_Object_AddComponent(p->btnQuit, SPRITECOMPONENT_CREATE("assets/btnQuit1.png", A_Center + A_Middle));
@@ -57,11 +57,11 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 		H3_Object_SetEnabled(p->btnQuit, false);
 	}
 	H3_Object_SetTranslation(p->paper, p->px , p->py);
-	H3_Object_SetTranslation(p->btnQuit, p->px+900, p->py-500 );
+	H3_Object_SetTranslation(p->btnQuit, p->px+900, p->py-400 );
 	//H3_Transform_GetPosition(H3_Object_GetTransform(p->btnQuit), &p->px, &p->py);//Get Coordonate of btnQuit 
 	printf("X : %f\n", p->px + 900);
-	printf("Y : %f\n", p->py -500);
-	p->exit = H3_Button(p->h3, SpriteComponent_GetTextureEx(p->btnQuit),1860, 40, A_Center + A_Middle);
+	printf("Y : %f\n", p->py -400);
+	p->exit = H3_Button(p->h3, SpriteComponent_GetTextureEx(p->btnQuit),1860, 140, A_Center + A_Middle);
 	if (p->display == 1)
 	{
 		H3_Object_SetEnabled(p->paper, true);
