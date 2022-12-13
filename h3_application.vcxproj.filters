@@ -1,2 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Clue.c" />
+    <ClCompile Include="Digide.c" />
+    <ClCompile Include="Inventory.c" />
+    <ClCompile Include="Monstere.c" />
+    <ClCompile Include="Object.c" />
+    <ClCompile Include="Player.c" />
+    <ClCompile Include="StartMenu.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\bootMenu.c" />
+    <ClCompile Include="src\credit.c" />
+    <ClCompile Include="src\chooseCharacter.c" />
+    <ClCompile Include="h3\h3\Timer.c" />
+    <ClCompile Include="Timer.c" />
+    <ClCompile Include="Weapon.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Clue.h" />
+    <ClInclude Include="Digide.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Monstere.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="StartMenu.h" />
+    <ClInclude Include="include\bootMenu.h" />
+    <ClInclude Include="include\chooseCharacter.h" />
+    <ClInclude Include="include\credit.h" />
+    <ClInclude Include="h3\h3\Timer.h" />
+    <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+</Project>

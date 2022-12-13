@@ -164,6 +164,39 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin;$(SolutionDir)external\lib;$(SolutionDir)h3\external\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Clue.c" />
+    <ClCompile Include="Digide.c" />
+    <ClCompile Include="h3\h3\Timer.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Inventory.c" />
+    <ClCompile Include="Monstere.c" />
+    <ClCompile Include="Object.c" />
+    <ClCompile Include="Player.c" />
+    <ClCompile Include="src\bootMenu.c" />
+    <ClCompile Include="src\chooseCharacter.c" />
+    <ClCompile Include="src\credit.c" />
+    <ClCompile Include="StartMenu.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="Timer.c" />
+    <ClCompile Include="Weapon.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Clue.h" />
+    <ClInclude Include="Digide.h" />
+    <ClInclude Include="h3\h3\Timer.h" />
+    <ClInclude Include="include\bootMenu.h" />
+    <ClInclude Include="include\chooseCharacter.h" />
+    <ClInclude Include="include\credit.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Monstere.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="StartMenu.h" />
+    <ClInclude Include="Weapon.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
