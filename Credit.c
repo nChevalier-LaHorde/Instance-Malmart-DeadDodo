@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <components/spritecomponent.h>
 #include <math.h>
-#include <credit.h>
+#include <Credit.h>
 
 typedef struct
 {
@@ -43,7 +43,7 @@ void CreditComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transfor
         }
     }
 
-    
+
 
     if (props->stateMenu == 3 && props->init == 1)      //State menu = 3 -> credit sheet
     {
@@ -55,7 +55,7 @@ void CreditComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transfor
         {
             H3_Object_SetVelocity(props->creditMenu, props->speedLogoX, props->speedLogoY);
         }
-        if (creditLogoPosY <= -850 && creditLogoPosY !=0 && props->wayPoint == 0)
+        if (creditLogoPosY <= -850 && creditLogoPosY != 0 && props->wayPoint == 0)
         {
             props->wayPoint = 1;
             printf("Way Point : %d\n", props->wayPoint);
@@ -78,7 +78,7 @@ void* CreditComponent_CreateProperties(H3Handle h3, int stateMenu)
     properties->wayPoint = 0;
     properties->spawnCreditPosX = 1920 / 2;
     properties->spawnCreditPosY = 1080 + 1080 / 2;
-    properties->stateMenu = stateMenu;    
+    properties->stateMenu = stateMenu;
 
     return properties;
 }

@@ -47,9 +47,7 @@
 
 #pragma warning (disable : 6011 28182)
 
-
- #define H3_DEBUG_DRAW_PHYSICS // Activer dessin col
-
+// #define H3_DEBUG_DRAW_PHYSICS
 
 // ============================================================================
 

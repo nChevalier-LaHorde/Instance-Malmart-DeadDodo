@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include<components/spritecomponent.h>
+#include <components/spritecomponent.h>
 #include <components/maplayercomponent.h>
 #include <components/cameracomponent.h>
 
@@ -34,7 +34,7 @@ void* ClueComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam)
 	properties->display = 0;
 	properties->scn = scn;
 	properties->cam = cam;
-	
+
 
 	return properties;
 }
@@ -49,14 +49,14 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 		p->paper = H3_Object_Create(p->scn, "paper", NULL);
 
 
-		H3_Object_AddComponent(p->paper, SPRITECOMPONENT_CREATE("assets/CluePaper.png", A_Center+A_Middle));
+		H3_Object_AddComponent(p->paper, SPRITECOMPONENT_CREATE("assets/CluePaper.png", A_Center + A_Middle));
 
-		
+
 
 		H3_Object_SetEnabled(p->paper, false);
 
 	}
-	H3_Object_SetTranslation(p->paper, p->px , p->py);
+	H3_Object_SetTranslation(p->paper, p->px, p->py);
 
 
 	p->exit = H3_Input_IsKeyPressed(K_Escape);
@@ -74,4 +74,4 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 	}
 
 }
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ClueComponent, CLUECOMPONENT_TYPEID,int, display);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ClueComponent, CLUECOMPONENT_TYPEID, int, display);

@@ -3,6 +3,7 @@
 #include <components/spritecomponent.h>
 #include <components/animatedspritecomponent.h>
 #include "Inventory.h"
+#include "Weapon.h"
 #include <Player.h>
 
 typedef struct
@@ -17,13 +18,14 @@ typedef struct
 	int spotInventory;
 	bool init;
 	H3Handle objTouch;
-	H3Handle kickObj; 
+	H3Handle kickObj;
 	int playerOnCol;
 	int nbrObjTouch;
 	float timeKick;
 	float w; float h;
 	int lastKeyPress;
 	bool isBoy;
+	bool couldHit;
 } Player_Properties;
 
 void* Player_CreateProperties(H3Handle cam, H3Handle scn)
@@ -39,6 +41,7 @@ void* Player_CreateProperties(H3Handle cam, H3Handle scn)
 	properties->scn = scn;
 	properties->lastKeyPress = 0;
 	properties->isBoy = true;
+	properties->couldHit = false;
 
 	return properties;
 }
@@ -62,13 +65,25 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam));
 		H3_Object_SetEnabled(props->kickObj, false);
-		
+
+		//------------------------------
+		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
+		//----------------------------
 
 		props->init = false;
 	}
+
+
+	//___________________________________________________________________
+
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
-	
-	
+
+	if (H3_Object_HasComponent(object, WEAPON_TYPEID))
+	{
+		props->couldHit = true;
+	}
+	//_____________________________________________________________________________
+
 
 	H3_Object_SetVelocity(object, 0, 0);
 
@@ -84,35 +99,35 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	if (H3_Input_IsKeyDown(K_D)) {
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyRight.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlRight.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, props->speed, 0);
-		H3_Object_SetTranslation(props->kickObj, props->player_x+30, props->player_y);
+		H3_Object_SetTranslation(props->kickObj, props->player_x + 30, props->player_y);
 		props->lastKeyPress = 0;
 
-		
+
 	}
 	if (H3_Input_IsKeyDown(K_Q)) {
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyLeft.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlLeft.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, -props->speed, 0);
-		H3_Object_SetTranslation(props->kickObj, props->player_x-30, props->player_y);
+		H3_Object_SetTranslation(props->kickObj, props->player_x - 30, props->player_y);
 		props->lastKeyPress = 1;
-		
+
 	}
 	if (H3_Input_IsKeyDown(K_S)) {
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyFront.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlFront.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, 0, props->speed);
-		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y+35);
+		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y + 35);
 		props->lastKeyPress = 2;
-		
+
 	}
 	if (H3_Input_IsKeyDown(K_Z)) {
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyBack.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlBack.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, 0, -props->speed);
-		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y-15);
+		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y - 15);
 		props->lastKeyPress = 3;
-		
-		
+
+
 	}
 
-	if (H3_Input_IsMouseBtnPressed(MB_Left))
+	if (H3_Input_IsMouseBtnPressed(MB_Left) && props->couldHit)
 	{
 		H3_Object_SetEnabled(props->kickObj, true);
 		if (props->lastKeyPress == 0)
@@ -120,7 +135,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 			AnimatedSpriteComponent_SetTextureEx(props->kickObj, H3_Texture_Load("assets/kick.png", &props->w, &props->h));
 			AnimatedSpriteComponent_SetFlipXEx(props->kickObj, false);
 			AnimatedSpriteComponent_SetFlipYEx(props->kickObj, false);
-		
+
 
 		}
 		else if (props->lastKeyPress == 1)
@@ -128,21 +143,21 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 			AnimatedSpriteComponent_SetTextureEx(props->kickObj, H3_Texture_Load("assets/kick.png", &props->w, &props->h));
 			AnimatedSpriteComponent_SetFlipXEx(props->kickObj, true);
 			AnimatedSpriteComponent_SetFlipYEx(props->kickObj, false);
-	
+
 		}
 		else if (props->lastKeyPress == 2)
 		{
 			AnimatedSpriteComponent_SetTextureEx(props->kickObj, H3_Texture_Load("assets/kick2.png", &props->w, &props->h));
 			AnimatedSpriteComponent_SetFlipXEx(props->kickObj, false);
 			AnimatedSpriteComponent_SetFlipYEx(props->kickObj, true);
-			
+
 		}
 		else if (props->lastKeyPress == 3)
 		{
 			AnimatedSpriteComponent_SetTextureEx(props->kickObj, H3_Texture_Load("assets/kick2.png", &props->w, &props->h));
 			AnimatedSpriteComponent_SetFlipXEx(props->kickObj, false);
 			AnimatedSpriteComponent_SetFlipYEx(props->kickObj, false);
-	
+
 		}
 		props->timeKick = H3_GetTime();
 	}
@@ -151,7 +166,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	{
 		H3_Object_SetEnabled(props->kickObj, false);
 
-		
+
 	}
 
 }
@@ -191,6 +206,7 @@ H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, playe
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, walk);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, run);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, lastKeyPress);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, bool, isBoy);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, spotInventory);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);
