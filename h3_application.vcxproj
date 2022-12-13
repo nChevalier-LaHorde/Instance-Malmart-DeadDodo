@@ -33,11 +33,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c" />
-    <ClCompile Include="C:\Users\cedri\Downloads\main.c" />
     <ClCompile Include="ChooseCharacter.c" />
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Credit.c" />
     <ClCompile Include="Inventory.c" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="Monstere.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="Player.c" />
