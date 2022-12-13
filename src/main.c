@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x/3, screen_y/3));
 
 	H3Handle player = H3_Object_Create2(scn, "player", NULL,3);
-	H3_Object_AddComponent(player, PLAYER_CREATE(camera));
+	H3_Object_AddComponent(player, PLAYER_CREATE(camera, scn));
 
 	bool stateWindow = true;
 
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 	H3_Object_AddComponent(selectCharacter, CHARACTERCOMPONENT_CREATE(scnMenuChoose, player));
 
 	H3Handle selectCharacterCamera = H3_Object_Create(scnMenuChoose, "selectCharacterCamera", NULL);
-	H3_Object_AddComponent(selectCharacterCamera, CAMERACOMPONENT_CREATE(screen_x / 3, screen_y / 3));
+	H3_Object_AddComponent(selectCharacterCamera, CAMERACOMPONENT_CREATE(screen_x, screen_y));
 
 
 	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);

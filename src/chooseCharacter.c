@@ -197,6 +197,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 Player_SetwalkEx(props->player, 200);
                 Player_SetrunEx(props->player, 250);
                 Player_SetspotInventoryEx(props->player, 2);
+                Player_SetisBoyEx(props->player, true);
                 break;
                
             // girl effect
@@ -218,6 +219,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
                 Player_SetwalkEx(props->player, 100);
                 Player_SetrunEx(props->player, 150);
                 Player_SetspotInventoryEx(props->player, 3);
+                Player_SetisBoyEx(props->player, false);
 
                 break;
 

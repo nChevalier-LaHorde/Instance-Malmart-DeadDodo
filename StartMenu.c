@@ -75,7 +75,7 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 		H3_Object_AddComponent(p->btnStart, SPRITECOMPONENT_CREATE("assets/BtnStart.png", A_Center + A_Middle));
 		H3_Object_AddComponent(p->btnPlayerChoose, SPRITECOMPONENT_CREATE("assets/Btn_Chara.png", A_Center + A_Middle));
 		H3_Object_AddComponent(p->btnExit, SPRITECOMPONENT_CREATE("assets/Btn_Exit.png", A_Center + A_Middle));
-		H3_Object_AddComponent(p->nameOfGame, SPRITECOMPONENT_CREATE("assets/NomDu Jeu.png", A_Center + A_Middle));
+		H3_Object_AddComponent(p->nameOfGame, SPRITECOMPONENT_CREATE("assets/NomDu Jeu - Copy.png", A_Center + A_Middle));
 		H3_Object_AddComponent(p->blurring, SPRITECOMPONENT_CREATE("assets/floutage_menu.png", A_Center + A_Middle));
 		H3_Object_EnablePhysics(p->cam, H3_BOX_COLLIDER(2, 50, 50, A_Top | A_Middle, true));
 		

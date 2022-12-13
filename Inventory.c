@@ -64,7 +64,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 	if (p->recup == 1)
 	{
 	
-		if (H3_Input_IsKeyPressed(K_A) )
+		if (H3_Input_IsKeyPressed(K_Space) )
 		{
 			if (H3_Object_HasComponent(Player_GetobjTouchEx(p->player), CLUECOMPONENT_TYPEID))
 			{
@@ -94,7 +94,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 	}
 	else if (p->recup == 0 && p->stock1 != NULL)
 	{
-		if (H3_Input_IsKeyPressed(K_A))
+		if (H3_Input_IsKeyPressed(K_Space))
 		{
 			if (p->stock3 != NULL  && Player_GetspotInventoryEx(object) == 3)
 			{
