@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <components/spritecomponent.h>
 #include <math.h>
-#include <bootMenu.h>
+#include <BootMenu.h>
 
 typedef struct
 {
@@ -23,14 +23,14 @@ typedef struct
 
 void BootMenuComponent_Init(SH3Transform* transform, void** propertiesPtr)
 {
-//    BootMenuComponent_Properties* props = (BootMenuComponent_Properties*)propertiesPtr;
-//
-//    // START-UP BOOT //
-//    H3Handle bootLogoMenu = H3_Object_Create(props->h3, "bootLogoMenu", NULL);
-//    H3_Object_AddComponent(bootLogoMenu, SPRITECOMPONENT_CREATE("assets/Boot/logo_horizontal_HD_1920x1080.png", 0x22));
-//    H3_Object_SetRenderOrder(bootLogoMenu, 1);
-//    H3_Object_EnablePhysics(bootLogoMenu, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
-//    H3_Object_SetTranslation(bootLogoMenu, 0, 0);
+    //    BootMenuComponent_Properties* props = (BootMenuComponent_Properties*)propertiesPtr;
+    //
+    //    // START-UP BOOT //
+    //    H3Handle bootLogoMenu = H3_Object_Create(props->h3, "bootLogoMenu", NULL);
+    //    H3_Object_AddComponent(bootLogoMenu, SPRITECOMPONENT_CREATE("assets/Boot/logo_horizontal_HD_1920x1080.png", 0x22));
+    //    H3_Object_SetRenderOrder(bootLogoMenu, 1);
+    //    H3_Object_EnablePhysics(bootLogoMenu, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
+    //    H3_Object_SetTranslation(bootLogoMenu, 0, 0);
 }
 
 void BootMenuComponent_Terminate(void* properties)
@@ -80,7 +80,7 @@ void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transf
         // ANIMATED LOGO BOOT MENU //
         float logoPosX, logoPosY;
         H3_Transform_GetPosition(H3_Object_GetTransform(props->bootLogoMenu), &logoPosX, &logoPosY);
-        
+
         if (props->wayPoint == 0)
         {
             //printf("START-UP BOOT\n");
@@ -89,13 +89,13 @@ void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transf
             H3_Object_SetVelocity(props->bootLogoNameTeam, props->speedLogoX, props->speedLogoY);
         }
 
-        if (logoPosX <= - 2500 && logoPosX!=0 && props->wayPoint == 0)   // Way point to set definition -> right 
+        if (logoPosX <= -2500 && logoPosX != 0 && props->wayPoint == 0)   // Way point to set definition -> right 
         {
             //props->wayPoint = 0;
             printf("Way Point : %d\n", props->wayPoint);
             //BootMenuComponent_SetstateMenuEx(props->stateMenu, 3);
             props->wayPoint = 1;
-            
+
             /*H3_Object_SetTranslation(props->bootLogoMenu, props->spawnPosX, props->spawnPosY);
             H3_Object_SetTranslation(props->bootLogoProjet, props->spawnPosX + 1000, props->spawnPosY);
             H3_Object_SetTranslation(props->bootLogoNameTeam, props->spawnPosX + 1700, props->spawnPosY + 20);*/
@@ -112,11 +112,11 @@ void* BootMenuComponent_CreateProperties(H3Handle h3, int stateMenu)
 
     properties->h3 = h3;
     properties->init = 0;
-    properties->speedLogoX = - 400.0f;
+    properties->speedLogoX = -400.0f;
     properties->speedLogoY = 0.0f;
     properties->wayPoint = 0;
     properties->spawnPosX = 1920 + 1920 / 2;
-    properties->spawnPosY = 1080 /2;
+    properties->spawnPosY = 1080 / 2;
 
     // MENU //
     properties->stateMenu = stateMenu;

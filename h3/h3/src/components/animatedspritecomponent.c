@@ -123,7 +123,7 @@ bool AnimatedSpriteComponent_IsAnimOver(H3Handle object)
 	return props->isAnimOver;
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(AnimatedSpriteComponent, H3Handle,  Texture);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(AnimatedSpriteComponent, H3Handle,  Texture);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(AnimatedSpriteComponent, EH3Anchor, Anchor);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(AnimatedSpriteComponent, uint32_t,  NumFrames);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(AnimatedSpriteComponent, float,     FrameDuration);

@@ -11,7 +11,7 @@ void ColSM(H3Handle obj, SH3Collision col, void* properties);
 void* SMComponent_CreateProperties(H3Handle h3, H3Handle scn);
 void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
-H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, bool, stateBtnStart); 
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, bool, stateBtnStart);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, bool, stateBtnPlayerChoose);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(SMComponent, bool, stateBtnExit);
 

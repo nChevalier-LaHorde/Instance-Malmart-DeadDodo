@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include<components/spritecomponent.h>
+#include <components/spritecomponent.h>
 #include <components/maplayercomponent.h>
 #include <components/cameracomponent.h>
 #include "Monstere.h"
@@ -60,14 +60,14 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 		{
 			p->init = 1;
 			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
-			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center+A_Middle));
+			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
 			H3_Object_EnablePhysics(p->malmart, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-	
+
 			//H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
 		}
 		H3_Object_SetTranslation(p->malmart, 1260, 1050);
 	}
 }
 
-	H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);

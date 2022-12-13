@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <components/spritecomponent.h>
 #include <math.h>
-#include <chooseCharacter.h>
-#include <bootMenu.h>
-#include <player.h>
+#include <components/spritecomponent.h>
+#include <components/animatedspritecomponent.h>
+#include <ChooseCharacter.h>
+#include <BootMenu.h>
+#include <Player.h>
+
 
 typedef struct
 {
@@ -31,7 +33,7 @@ typedef struct
     int widthBoyCharacter;
     int heightBoyCharacter;
     bool boySelectButton;
-        // description
+    // description
     H3Handle boyDescription;
 
     // girl character
@@ -42,7 +44,7 @@ typedef struct
     int widthGirlCharacter;
     int heightGirlCharacter;
     bool girlSelectButton;
-        // description
+    // description
     H3Handle girlDescription;
 
 } CharacterComponent_Properties;
@@ -67,7 +69,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             // boy character 
             props->boyCharacter = H3_Object_Create2(props->h3, "boyCharacter", NULL, 1);
             H3_Object_AddComponent(props->boyCharacter, SPRITECOMPONENT_CREATE("assets/Choose character/boy.png", A_Left | A_Top));
-            H3_Object_EnablePhysics(props->boyCharacter, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Middle| A_Center, false));
+            H3_Object_EnablePhysics(props->boyCharacter, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Middle | A_Center, false));
             H3_Object_SetTranslation(props->boyCharacter, props->spawnBoyCharacterPosX, props->spawnBoyCharacterPosY);
             // boy select
             props->boySelect = H3_Object_Create2(props->h3, "boySelect", NULL, 1);
@@ -78,7 +80,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             // boy description
             props->boyDescription = H3_Object_Create2(props->h3, "boyDescription", NULL, 1);
             H3_Object_AddComponent(props->boyDescription, SPRITECOMPONENT_CREATE("assets/Choose character/boy_description.png", A_Left | A_Top));
-            H3_Object_SetTranslation(props->boyDescription, props->spawnBoyCharacterPosX * 1.8 , props->spawnBoyCharacterPosY + 510);
+            H3_Object_SetTranslation(props->boyDescription, props->spawnBoyCharacterPosX * 1.8, props->spawnBoyCharacterPosY + 510);
             H3_Object_SetEnabled(props->boyDescription, false);
 
 
@@ -110,12 +112,12 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
         int mousePosX, mousePosY;
         H3_Input_GetMousePos(h3, &mousePosX, &mousePosY);
 
-                
+
         if (mousePosX >= props->spawnBoyCharacterPosX && mousePosX <= props->widthBoyCharacter && mousePosY >= props->spawnBoyCharacterPosY && mousePosY <= props->heightBoyCharacter)
         {
             props->select = 1;
         }
-        
+
         else if (mousePosX >= props->spawnGirlCharacterPosX && mousePosX <= props->widthGirlCharacter && mousePosY >= props->spawnGirlCharacterPosY && mousePosY <= props->heightGirlCharacter)
         {
             props->select = 2;
@@ -146,90 +148,90 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
         switch (props->select)
         {                   // description and move up character
             // if any has select
-            case 0:
-                printf("character not select %d\n", props->select);
-                //image select off
-                //boy
-                H3_Object_SetEnabled(props->boyCharacter, true);
-                H3_Object_SetEnabled(props->boySelect, false);
-                //girl
-                H3_Object_SetEnabled(props->girlCharacter, true);
-                H3_Object_SetEnabled(props->girlSelect, false);
+        case 0:
+            printf("character not select %d\n", props->select);
+            //image select off
+            //boy
+            H3_Object_SetEnabled(props->boyCharacter, true);
+            H3_Object_SetEnabled(props->boySelect, false);
+            //girl
+            H3_Object_SetEnabled(props->girlCharacter, true);
+            H3_Object_SetEnabled(props->girlSelect, false);
 
-                // image description
-                H3_Object_SetEnabled(props->boyDescription, false);
-                H3_Object_SetEnabled(props->girlDescription, false);
-                break;
+            // image description
+            H3_Object_SetEnabled(props->boyDescription, false);
+            H3_Object_SetEnabled(props->girlDescription, false);
+            break;
 
             // boy
-            case 1:
-                printf("boy character %d\n", props->select);
-                // image select boy
-                H3_Object_SetEnabled(props->boyCharacter, false);
-                H3_Object_SetEnabled(props->boySelect, true);
-                H3_Object_SetEnabled(props->boyDescription, true);
-                break;
+        case 1:
+            printf("boy character %d\n", props->select);
+            // image select boy
+            H3_Object_SetEnabled(props->boyCharacter, false);
+            H3_Object_SetEnabled(props->boySelect, true);
+            H3_Object_SetEnabled(props->boyDescription, true);
+            break;
 
             // girl
-            case 2: 
-                printf("girl character %d\n", props->select);
-                //image select
-                H3_Object_SetEnabled(props->girlCharacter, false);
-                H3_Object_SetEnabled(props->girlSelect, true);
-                H3_Object_SetEnabled(props->girlDescription, true);
-                break;
+        case 2:
+            printf("girl character %d\n", props->select);
+            //image select
+            H3_Object_SetEnabled(props->girlCharacter, false);
+            H3_Object_SetEnabled(props->girlSelect, true);
+            H3_Object_SetEnabled(props->girlDescription, true);
+            break;
 
-                            // effect apply
-            // boy effect
-            case 4:
-                printf("boy character select %d\n", props->select);
-                // animation exit select chamber character
-                props->select = 10;
-                props->wayPoint = 1;
-                // boy action
-                H3_Object_SetEnabled(props->boyCharacter, true);
-                H3_Object_SetEnabled(props->boyDescription, true);
+            // effect apply
+// boy effect
+        case 4:
+            printf("boy character select %d\n", props->select);
+            // animation exit select chamber character
+            props->select = 10;
+            props->wayPoint = 1;
+            // boy action
+            H3_Object_SetEnabled(props->boyCharacter, true);
+            H3_Object_SetEnabled(props->boyDescription, true);
 
-                // girl action
-                H3_Object_SetEnabled(props->girlCharacter, false);
-                H3_Object_SetEnabled(props->girlDescription, false);
-                // Set Player Parameters
-                Player_SetwalkEx(props->player, 200);
-                Player_SetrunEx(props->player, 250);
-                Player_SetspotInventoryEx(props->player, 2);
-                Player_SetisBoyEx(props->player, true);
-                break;
-               
+            // girl action
+            H3_Object_SetEnabled(props->girlCharacter, false);
+            H3_Object_SetEnabled(props->girlDescription, false);
+            // Set Player Parameters
+            Player_SetwalkEx(props->player, 200);
+            Player_SetrunEx(props->player, 250);
+            Player_SetspotInventoryEx(props->player, 2);
+            Player_SetisBoyEx(props->player, true);
+            break;
+
             // girl effect
-            case 5:
-                printf("girl character select %d\n", props->select);
-                // animation exit select chamber character
-                props->select = 10;
-                props->wayPoint = 1;
-                // boy select
-                H3_Object_SetEnabled(props->boyCharacter, false);
-                H3_Object_SetEnabled(props->boyDescription, false);
+        case 5:
+            printf("girl character select %d\n", props->select);
+            // animation exit select chamber character
+            props->select = 10;
+            props->wayPoint = 1;
+            // boy select
+            H3_Object_SetEnabled(props->boyCharacter, false);
+            H3_Object_SetEnabled(props->boyDescription, false);
 
 
-                
-                // girl action
-                H3_Object_SetEnabled(props->girlCharacter, true);
-                H3_Object_SetEnabled(props->girlDescription, true);
-                // Set Player Parameters
-                Player_SetwalkEx(props->player, 100);
-                Player_SetrunEx(props->player, 150);
-                Player_SetspotInventoryEx(props->player, 3);
-                Player_SetisBoyEx(props->player, false);
 
-                break;
+            // girl action
+            H3_Object_SetEnabled(props->girlCharacter, true);
+            H3_Object_SetEnabled(props->girlDescription, true);
+            // Set Player Parameters
+            Player_SetwalkEx(props->player, 100);
+            Player_SetrunEx(props->player, 150);
+            Player_SetspotInventoryEx(props->player, 3);
+            Player_SetisBoyEx(props->player, false);
+
+            break;
 
             // enable to start
-            case 10:
-                props->wayPoint = 1;
-                break;
+        case 10:
+            props->wayPoint = 1;
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
 
@@ -253,7 +255,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
         //    H3_Object_SetTranslation(props->boyCharacter, props->spawnBoyCharacterPosX, props->spawnBoyCharacterPosY);
         //}
 
-        
+
     }
 }
 
@@ -277,7 +279,7 @@ void* CharacterComponent_CreateProperties(H3Handle h3, H3Handle player)
     properties->select = 0;
 
     // boy character 
-    properties->spawnBoyCharacterPosX = 1080 / 4;   
+    properties->spawnBoyCharacterPosX = 1080 / 4;
     properties->spawnBoyCharacterPosY = 70;
     properties->widthBoyCharacter = properties->spawnBoyCharacterPosX + 720;    // add width in pixel about the sprite
     properties->heightBoyCharacter = properties->spawnBoyCharacterPosY + 480;   // add height in pixel about the sprite
@@ -287,7 +289,7 @@ void* CharacterComponent_CreateProperties(H3Handle h3, H3Handle player)
     properties->spawnGirlCharacterPosY = properties->spawnBoyCharacterPosY;
     properties->widthGirlCharacter = properties->spawnGirlCharacterPosX + 720;  // add width in pixel about the sprite
     properties->heightGirlCharacter = properties->spawnGirlCharacterPosY + 480;  // add height in pixel about the sprite
-    
+
 
     return properties;
 }
