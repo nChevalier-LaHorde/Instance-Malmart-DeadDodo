@@ -181,6 +181,7 @@
     <ClCompile Include="StartMenu.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="Timer.c" />
+    <ClCompile Include="Weapon.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clue.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartMenu.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

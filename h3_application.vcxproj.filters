@@ -14,6 +14,7 @@
     <ClCompile Include="src\chooseCharacter.c" />
     <ClCompile Include="h3\h3\Timer.c" />
     <ClCompile Include="Timer.c" />
+    <ClCompile Include="Weapon.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clue.h" />
@@ -27,5 +28,6 @@
     <ClInclude Include="include\chooseCharacter.h" />
     <ClInclude Include="include\credit.h" />
     <ClInclude Include="h3\h3\Timer.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
 </Project>

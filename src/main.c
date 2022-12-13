@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 
 
 	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);
-	H3_Object_AddComponent(first_obj, SMCOMPONENT_CREATE(h3, scnMenu));
+	H3_Object_AddComponent(first_obj, SMCOMPONENT_CREATE(h3, scnMenu)); // ajoute le Main Menu a first object
 
 	H3Handle second_obj = H3_Object_Create(scn, "second_obj", NULL);
 	H3_Object_AddComponent(second_obj, OBJECTCOMPONENT_CREATE(scn, h3, camera, &iWantThis));
@@ -139,11 +139,9 @@ int main(int argc, char** argv)
 
 
 
-
 	float a; float b;
 	do
 	{	
-
 		exitGame = SMComponent_GetstateBtnExitEx(first_obj);
 		if (SMComponent_GetstateBtnStartEx(first_obj))
 		{

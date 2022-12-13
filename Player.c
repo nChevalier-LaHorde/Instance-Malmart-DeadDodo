@@ -3,6 +3,7 @@
 #include <components/spritecomponent.h>
 #include <components/animatedspritecomponent.h>
 #include "Inventory.h"
+#include "Weapon.h"
 #include <Player.h>
 
 typedef struct
@@ -24,6 +25,7 @@ typedef struct
 	float w; float h;
 	int lastKeyPress;
 	bool isBoy;
+	bool couldHit;
 } Player_Properties;
 
 void* Player_CreateProperties(H3Handle cam, H3Handle scn)
@@ -39,6 +41,7 @@ void* Player_CreateProperties(H3Handle cam, H3Handle scn)
 	properties->scn = scn;
 	properties->lastKeyPress = 0;
 	properties->isBoy = true;
+	properties->couldHit = false;
 
 	return properties;
 }
@@ -63,12 +66,24 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam));
 		H3_Object_SetEnabled(props->kickObj, false);
 		
+		//------------------------------
+		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
+		//----------------------------
 
 		props->init = false;
 	}
+
+
+	//___________________________________________________________________
+
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
 	
-	
+	if (H3_Object_HasComponent(object, WEAPON_TYPEID))
+	{
+		props->couldHit = true;
+	}
+	//_____________________________________________________________________________
+
 
 	H3_Object_SetVelocity(object, 0, 0);
 
@@ -112,7 +127,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		
 	}
 
-	if (H3_Input_IsMouseBtnPressed(MB_Left))
+	if (H3_Input_IsMouseBtnPressed(MB_Left) && props->couldHit)
 	{
 		H3_Object_SetEnabled(props->kickObj, true);
 		if (props->lastKeyPress == 0)
@@ -191,6 +206,7 @@ H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, playe
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, walk);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, run);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, lastKeyPress);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, bool, isBoy);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, spotInventory);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);

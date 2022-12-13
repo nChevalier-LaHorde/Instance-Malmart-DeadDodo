@@ -119,7 +119,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 		}
 	}
 
-	printf("%d \n", p->recup);
+	/*printf("%d \n", p->recup);*/
 
 	// move inventory
 	if (p->stock1 != NULL) 

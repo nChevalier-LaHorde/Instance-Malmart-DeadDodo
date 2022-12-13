@@ -12,7 +12,7 @@
 typedef struct
 {
 	H3Handle monstere; H3Handle scn; H3Handle cam; float condition; int monstereEffect; int init;
-	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart;
+	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart; H3Handle weapon;
 
 } ObjectComponent_Properties;
 
@@ -38,6 +38,7 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->cam = cam;
 	properties->monstere = H3_Object_Create(scn, "monstere", NULL);
 	properties->paperClue = H3_Object_Create(scn, "paperClue", NULL);
+	properties->weapon = H3_Object_Create(scn, "weapon", NULL);
 	properties->malmart = H3_Object_Create2(scn, "malmart", NULL, 2);
 
 
