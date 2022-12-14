@@ -206,12 +206,12 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 
 
 
-	if (H3_Input_IsKeyPressed(K_Up))
+	if (H3_Input_IsKeyPressed(K_Left))
 	{
 		p->selected++;
 		printf("p->selected %d\n", p->selected);
 	}
-	else if (H3_Input_IsKeyPressed(K_Down))
+	else if (H3_Input_IsKeyPressed(K_Right))
 	{
 		p->selected--;
 		printf("p->selected %d\n", p->selected);
