@@ -61,22 +61,28 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		props->isBoy ? H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/BoyFront.png", A_Center | A_Middle)) : H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/GirlFront.png", A_Center | A_Middle));;
 		H3_Object_Translate(object, 960, 540);
 		H3_Object_AddComponent(props->kickObj, ANIMATEDSPRITECOMPONENT_CREATE("assets/kick.png", A_Center | A_Middle, 1, 0.1, false));
-		H3_Object_EnablePhysics(props->kickObj, H3_CIRCLE_COLLIDER(2, 10, true));
+		//H3_Object_EnablePhysics(props->kickObj, H3_CIRCLE_COLLIDER(2, 10, true));
 
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam));
 		H3_Object_SetEnabled(props->kickObj, false);
 
 		//------------------------------
-		H3_Object_AddComponent(props->kickObj, WEAPON_CREATE(props->cam, props->scn, object));
+		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
 		//----------------------------
 
 		props->init = false;
 	}
 
 
+	//___________________________________________________________________
+
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
 
-
+	if (H3_Object_HasComponent(object, WEAPON_TYPEID))
+	{
+		props->couldHit = true;
+	}
+	//_____________________________________________________________________________
 
 
 	H3_Object_SetVelocity(object, 0, 0);
