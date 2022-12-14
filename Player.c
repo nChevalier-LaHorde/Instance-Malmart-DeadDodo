@@ -5,11 +5,15 @@
 #include "Inventory.h"
 #include "Weapon.h"
 #include "TypeWeapon.h"
+#include "TypeMonstere.h"
+#include "Monstere.h"
+#include "Object.h"
 #include <Player.h>
 
 typedef struct
 {
 	H3Handle cam;
+	H3Handle gameObject;
 	H3Handle scn;
 	float player_x;
 	float player_y;
@@ -30,7 +34,7 @@ typedef struct
 	bool couldHit;
 } Player_Properties;
 
-void* Player_CreateProperties(H3Handle cam, H3Handle scn)
+void* Player_CreateProperties(H3Handle cam, H3Handle scn, H3Handle gameObject)
 {
 	Player_Properties* properties = malloc(sizeof(Player_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
@@ -45,6 +49,7 @@ void* Player_CreateProperties(H3Handle cam, H3Handle scn)
 	properties->isBoy = true;
 	properties->couldHit = false;
 	properties->switchToWeapon = 0;
+	properties->gameObject = gameObject;
 
 	return properties;
 }
@@ -77,38 +82,46 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 
 	//------------------------------
+
 	
-	if(InventoryComponent_Getstock1Ex(object) != NULL)
+	if(InventoryComponent_GetstockSelectedEx(object) != NULL)
 	{
-		printf("%s", InventoryComponent_Getstock1Ex(object));
-		if (H3_Object_HasComponent(InventoryComponent_Getstock1Ex(object), TYPEWEAPON_TYPEID) == true )
+		printf("%s", InventoryComponent_GetstockSelectedEx(object));
+
+		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEMONSTERE_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
+		{
+			int a = MonstereComponent_GetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject));
+			MonstereComponent_SetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject), a + 1);
+			H3_Object_Destroy(InventoryComponent_GetstockSelectedEx(object), true);
+		}
+
+		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEWEAPON_TYPEID) == true )
 		{
 			printf("Good");
 			H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), true);
-			
-			props->switchToWeapon = 1;
+			props->couldHit = true;
+		}
+		else
+		{
+			H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
+			props->couldHit = false;
 		}
 		
 	}
-	if (InventoryComponent_Getstock1Ex(object) == NULL )
+	else
+	{
+		H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
+		props->couldHit = false;
+	}
+	if (InventoryComponent_GetstockSelectedEx(object) == NULL )
 	{
 
 		/*H3_Object_SetEnabled()*/
 		H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
-		props->switchToWeapon = 0;
+		props->couldHit = false;
 	}
 	//----------------------------
-	//___________________________________________________________________
-
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);
-
-	if (H3_Object_HasComponent(object, WEAPON_TYPEID))
-	{
-		props->couldHit = true;
-	}
-	//_____________________________________________________________________________
-
-
 	H3_Object_SetVelocity(object, 0, 0);
 
 	if (H3_Input_IsKeyDown(K_Shift))
@@ -151,7 +164,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 	}
 
-	if (H3_Input_IsMouseBtnPressed(MB_Left) && props->couldHit)
+	if (H3_Input_IsMouseBtnPressed(MB_Left) && props->couldHit==true)
 	{
 		H3_Object_SetEnabled(props->kickObj, true);
 		if (props->lastKeyPress == 0)

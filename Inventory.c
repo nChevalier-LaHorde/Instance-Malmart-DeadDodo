@@ -28,7 +28,7 @@ typedef struct
 	H3Handle invHudSelected1;
 	H3Handle invHudSelected2;
 	H3Handle invHudSelected3;
-
+	H3Handle stockSelected;
 
 	H3Handle cam;
 	float camX;
@@ -62,6 +62,7 @@ void* InventoryComponent_CreateProperties(H3Handle player, H3Handle cam, H3Handl
 	properties->cam = cam;
 	properties->init = true;
 	properties->itSWeapon = false;
+	properties->stockSelected = NULL;
 
 
 	return properties;
@@ -206,12 +207,12 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 
 
 
-	if (H3_Input_IsKeyPressed(K_Up))
+	if (H3_Input_IsKeyPressed(K_Left))
 	{
 		p->selected++;
 		printf("p->selected %d\n", p->selected);
 	}
-	else if (H3_Input_IsKeyPressed(K_Down))
+	else if (H3_Input_IsKeyPressed(K_Right))
 	{
 		p->selected--;
 		printf("p->selected %d\n", p->selected);
@@ -236,6 +237,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 		H3_Object_SetEnabled(p->invHud2, true);
 		H3_Object_SetEnabled(p->invHudSelected1, true);
 		H3_Object_SetEnabled(p->invHudSelected2, false);
+		p->stockSelected = p->stock1;
 		if (Player_GetspotInventoryEx(object) == 3)
 		{
 			H3_Object_SetEnabled(p->invHud3, true);
@@ -249,6 +251,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 		H3_Object_SetEnabled(p->invHud2, false);
 		H3_Object_SetEnabled(p->invHudSelected1, false);
 		H3_Object_SetEnabled(p->invHudSelected2, true);
+		p->stockSelected = p->stock2;
 		if (Player_GetspotInventoryEx(object) == 3)
 		{
 			H3_Object_SetEnabled(p->invHud3, true);
@@ -267,6 +270,7 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 			H3_Object_SetEnabled(p->invHudSelected1, false);
 			H3_Object_SetEnabled(p->invHudSelected2, false);
 			H3_Object_SetEnabled(p->invHudSelected3, true);
+			p->stockSelected = p->stock3;
 		}
 		else
 		{
@@ -282,4 +286,4 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 
 
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(InventoryComponent, INVENTORYCOMPONENT_TYPEID, H3Handle, stock1);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(InventoryComponent, INVENTORYCOMPONENT_TYPEID, H3Handle, stockSelected);

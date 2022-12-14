@@ -3,7 +3,7 @@
 
 #include <h3.h>
 
-#define OBJECTCOMPONENT_TYPEID 0x000002221
+#define OBJECTCOMPONENT_TYPEID 0x000564502221
 
 H3_CAPI_BEGIN_BLOCK
 void ObjectComponent_Terminate(void* properties);
@@ -11,6 +11,7 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, int, monstereEffect);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, H3Handle, monstere);
 
 H3_CAPI_END_BLOCK
 
