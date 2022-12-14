@@ -29,6 +29,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TypeWeapon.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +44,7 @@
     <ClCompile Include="Player.c" />
     <ClCompile Include="StartMenu.c" />
     <ClCompile Include="Timer.c" />
+    <ClCompile Include="TypeWeapon.c" />
     <ClCompile Include="Weapon.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

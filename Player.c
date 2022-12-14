@@ -4,6 +4,7 @@
 #include <components/animatedspritecomponent.h>
 #include "Inventory.h"
 #include "Weapon.h"
+#include "TypeWeapon.h"
 #include <Player.h>
 
 typedef struct
@@ -25,6 +26,7 @@ typedef struct
 	float w; float h;
 	int lastKeyPress;
 	bool isBoy;
+	int switchToWeapon;
 	bool couldHit;
 } Player_Properties;
 
@@ -42,6 +44,7 @@ void* Player_CreateProperties(H3Handle cam, H3Handle scn)
 	properties->lastKeyPress = 0;
 	properties->isBoy = true;
 	properties->couldHit = false;
+	properties->switchToWeapon = 0;
 
 	return properties;
 }
@@ -62,19 +65,39 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_Translate(object, 960, 540);
 		H3_Object_AddComponent(props->kickObj, ANIMATEDSPRITECOMPONENT_CREATE("assets/kick.png", A_Center | A_Middle, 1, 0.1, false));
 		//H3_Object_EnablePhysics(props->kickObj, H3_CIRCLE_COLLIDER(2, 10, true));
-
-		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam));
+		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
+		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam, props->scn));
 		H3_Object_SetEnabled(props->kickObj, false);
 
-		//------------------------------
-		
-		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
-		//----------------------------
 
 		props->init = false;
 	}
 
 
+
+
+	//------------------------------
+	
+	if(InventoryComponent_Getstock1Ex(object) != NULL)
+	{
+		printf("%s", InventoryComponent_Getstock1Ex(object));
+		if (H3_Object_HasComponent(InventoryComponent_Getstock1Ex(object), TYPEWEAPON_TYPEID) == true )
+		{
+			printf("Good");
+			H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), true);
+			
+			props->switchToWeapon = 1;
+		}
+		
+	}
+	if (InventoryComponent_Getstock1Ex(object) == NULL )
+	{
+
+		/*H3_Object_SetEnabled()*/
+		H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
+		props->switchToWeapon = 0;
+	}
+	//----------------------------
 	//___________________________________________________________________
 
 	H3_Object_SetTranslation(props->cam, props->player_x, props->player_y);

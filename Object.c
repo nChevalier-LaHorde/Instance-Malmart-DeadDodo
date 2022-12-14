@@ -8,6 +8,7 @@
 #include "Monstere.h"
 #include "Clue.h"
 #include "Timer.h"
+#include "TypeWeapon.h"
 
 typedef struct
 {
@@ -61,6 +62,7 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 			p->init = 1;
 			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
 			H3_Object_AddComponent(p->weapon, SPRITECOMPONENT_CREATE("assets/baguette.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->weapon, TYPEWEAPON_CREATE());
 			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
 		

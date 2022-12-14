@@ -4,7 +4,6 @@
 #include <components/animatedspritecomponent.h>
 #include "Weapon.h"
 #include "Player.h"
-#include "Inventory.h"
 
 typedef struct
 {
@@ -12,6 +11,7 @@ typedef struct
 	H3Handle weaponObj;
 	float px; float py; // player X et Y
 	int lastKeyPress;
+
 } Weapon_Properties;
 
 void* Weapon_CreateProperties(H3Handle cam, H3Handle scn)
@@ -21,6 +21,7 @@ void* Weapon_CreateProperties(H3Handle cam, H3Handle scn)
 
 	properties->init = false;
 	properties->weaponObj = H3_Object_Create2(scn, "weaponObj", NULL, 3);
+
 
 	return properties;
 }
@@ -35,7 +36,7 @@ void Weapon_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	Weapon_Properties* p = (Weapon_Properties*)properties;
 	H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->px, &p->py);
 	p->lastKeyPress = Player_GetlastKeyPressEx(object);
-	if (!p->init )
+	if (!p->init)
 	{
 		p->init = true;
 		H3_Object_AddComponent(p->weaponObj, ANIMATEDSPRITECOMPONENT_CREATE("assets/baguette.png", A_Middle + A_Center, 1, 1, false));
@@ -82,3 +83,6 @@ void WeaponOnCollision(H3Handle obj, SH3Collision col)
 	}
 
 }
+
+
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Weapon, WEAPON_TYPEID, H3Handle, weaponObj);
