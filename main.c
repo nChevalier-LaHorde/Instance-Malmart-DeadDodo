@@ -133,7 +133,12 @@ int main(int argc, char** argv)
 
 	H3_Object_AddComponent(obj1, CLUECOMPONENT_CREATE(scn, h3, camera));
 
-	///////////////////////////////////////
+
+	///////////////////MUSIC////////////////////
+
+
+
+	//////////////////////////////////////
 
 
 	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
