@@ -147,3 +147,4 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 	}
 
 }
+//H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(InvetoryComponent, INVENTORYCOMPONENT_TYPEID, H3Handle, stock1);

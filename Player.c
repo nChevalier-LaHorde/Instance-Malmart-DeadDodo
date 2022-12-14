@@ -67,6 +67,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_SetEnabled(props->kickObj, false);
 
 		//------------------------------
+		
 		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
 		//----------------------------
 
