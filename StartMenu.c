@@ -122,7 +122,7 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 	if (p->stateBtnStart)
 	{
 		////////////MUSIC////////////
-		/*H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
+		H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
 		H3Handle musicMainPhase = H3_Music_Load("assets/Music/Malmart_main_theme_Phase.wav");
 		H3_Music_Play(musicMainTheme, 1.0f, true);
 		H3_Music_Play(musicMainPhase, 1.0f, false);

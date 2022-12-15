@@ -19,6 +19,10 @@ typedef struct
 	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart; H3Handle weapon;
 	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3; H3Handle door; H3Handle useKeyHere; H3Handle doorKey;
 
+	int spawnRandomPos;
+	int randPosX;
+	int randPosY;
+
 
 } ObjectComponent_Properties;
 
@@ -54,7 +58,6 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->doorKey = H3_Object_Create2(scn, "doorKey", NULL, 2);
 
 
-
 	properties->monstereEffect = 0;
 
 	properties->scnLunch = scnLunch;
@@ -71,6 +74,18 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 		if (p->init == 0)
 		{
 			p->init = 1;
+
+
+			// spawn table monstere
+			int tab [5][3] = {	{440, 970, 0}, // caisse
+								{309, 788, 0}, //box
+								{544, 521, 0}, // rayon
+								{660, 354, 0}, //haut
+								{880, 1180, 0} }; //bas 
+
+			int index = rand() % 4;
+			printf("%d this\n", tab[0][2]);
+
 			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
 			H3_Object_AddComponent(p->monstere, TYPECANTAKE_CREATE());
 			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
@@ -81,23 +96,54 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 			H3_Object_EnablePhysics(p->weapon, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 			H3_Object_SetTranslation(p->weapon, 1050, 1000);
 
+
+
+
+
 			H3_Object_AddComponent(p->monstereObj1, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj1, TYPEMONSTERE_CREATE());
 			H3_Object_AddComponent(p->monstereObj1, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj1, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj1, 1050, 900);
+			H3_Object_SetTranslation(p->monstereObj1, tab[index][0], tab[index][1]);
+			printf("%d this\n", tab[0][1]);
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
 
 			H3_Object_AddComponent(p->monstereObj2, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj2, TYPEMONSTERE_CREATE());
 			H3_Object_AddComponent(p->monstereObj2, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj2, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj2, 1100, 900);
+			H3_Object_SetTranslation(p->monstereObj2, tab[index][0], tab[index][1]);
+			printf("%d this\n", tab[0][1]);
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
 
 			H3_Object_AddComponent(p->monstereObj3, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj3, TYPEMONSTERE_CREATE());
 			H3_Object_AddComponent(p->monstereObj3, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj3, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj3, 1050, 800);
+			H3_Object_SetTranslation(p->monstereObj3, tab[index][0], tab[index][1]);
+			printf("%d this\n", tab[0][1]);
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
+
+
+
 
 			H3_Object_AddComponent(p->paperClue, SPRITECOMPONENT_CREATE("assets/trash.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
@@ -119,15 +165,11 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 			H3_Object_SetTranslation(p->doorKey, 900, 900);
 
 			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
-			
-		
-			
-			
 
 			
 		}
 		H3_Object_SetTranslation(p->malmart, 1260, 1050);
-		
+
 	}
 	
 }
