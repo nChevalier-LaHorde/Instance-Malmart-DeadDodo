@@ -107,38 +107,7 @@ int main(int argc, char** argv)
 	H3Handle first_obj = H3_Object_Create(scnMenu, "first_obj", NULL);
 	H3_Object_AddComponent(first_obj, SMCOMPONENT_CREATE(h3, scnMenu)); // ajoute le Main Menu a first object
 
-	
 
-
-	////////OBJECT TEST/////////////////
-	H3Handle obj1 = H3_Object_Create(scn, "obj1", NULL);
-	H3Handle obj2 = H3_Object_Create(scn, "obj2", NULL);
-	H3Handle obj3 = H3_Object_Create(scn, "obj3", NULL);
-	H3Handle obj4 = H3_Object_Create(scn, "obj4", NULL);
-
-	H3_Object_AddComponent(obj1, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
-	H3_Object_AddComponent(obj2, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
-	H3_Object_AddComponent(obj3, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
-	H3_Object_AddComponent(obj4, SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Middle + A_Center));
-
-	H3_Object_EnablePhysics(obj1, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
-	H3_Object_EnablePhysics(obj2, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
-	H3_Object_EnablePhysics(obj3, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
-	H3_Object_EnablePhysics(obj4, H3_BOX_COLLIDER(2, 50, 50, A_Middle + A_Center, true));
-
-	H3_Object_SetTranslation(obj1, screen_x / 2, screen_y / 2);
-	H3_Object_SetTranslation(obj2, 900, 800);
-	H3_Object_SetTranslation(obj3, 1000, 800);
-	H3_Object_SetTranslation(obj4, 1100, 800);
-
-	H3_Object_AddComponent(obj1, CLUECOMPONENT_CREATE(scn, h3, camera));
-
-
-	///////////////////MUSIC////////////////////
-
-
-
-	//////////////////////////////////////
 
 
 	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);

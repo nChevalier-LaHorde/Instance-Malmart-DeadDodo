@@ -37,25 +37,25 @@ void* SMComponent_CreateProperties(H3Handle h3, H3Handle scn)
 	//cam
 	properties->cam = H3_Object_Create(properties->scn, "cam", NULL);
 	//btn Start
-	properties->btnStart = H3_Object_Create2(properties->scn, "btnStart", NULL, 5);
+	properties->btnStart = H3_Object_Create2(properties->scn, "btnStart", NULL, 6);
 	properties->stateBtnStart = false;
 	properties->x_BtnStart = 960;
 	properties->y_BtnStart = 540;
 	// btn Player choose
-	properties->btnPlayerChoose = H3_Object_Create2(properties->scn, "btnPlayerChoose", NULL, 5);
+	properties->btnPlayerChoose = H3_Object_Create2(properties->scn, "btnPlayerChoose", NULL, 6);
 	properties->stateBtnPlayerChoose = false;
 	// btn Exit
-	properties->btnExit = H3_Object_Create2(properties->scn, "btnExit", NULL, 5);
+	properties->btnExit = H3_Object_Create2(properties->scn, "btnExit", NULL, 6);
 	properties->stateBtnExit = false;
 
 	// Other
-	properties->nameOfGame = H3_Object_Create2(properties->scn, "nameOfGame", NULL, 5);
+	properties->nameOfGame = H3_Object_Create2(properties->scn, "nameOfGame", NULL, 6);
 	properties->map = H3_Map_Load("assets/MapMagasin.tmx");
 	properties->obj_map1 = H3_Object_Create2(properties->scn, "obj_map1", NULL, 0);
 	properties->obj_map2 = H3_Object_Create2(properties->scn, "obj_map2", NULL, 1);
 	properties->obj_map3 = H3_Object_Create2(properties->scn, "obj_map3", NULL, 2);
 	properties->obj_map4 = H3_Object_Create2(properties->scn, "obj_map4", NULL, 4);
-	properties->blurring = H3_Object_Create2(properties->scn, "blurring", properties->cam, 1);
+	properties->blurring = H3_Object_Create2(properties->scn, "blurring", properties->cam, 5);
 	properties->slewRate = 100;
 
 
@@ -105,7 +105,7 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 	{
 		H3_Object_SetVelocity(p->cam, p->slewRate, p->vcy);
 	}
-	if (p->cx > 2000)
+	if (p->cx > 1500)
 	{
 		H3_Object_SetVelocity(p->cam, -p->slewRate, p->vcy);
 	}
@@ -122,10 +122,10 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 	if (p->stateBtnStart)
 	{
 		////////////MUSIC////////////
-		H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
+		/*H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
 		H3Handle musicMainPhase = H3_Music_Load("assets/Music/Malmart_main_theme_Phase.wav");
 		H3_Music_Play(musicMainTheme, 1.0f, true);
-		H3_Sound_Play(musicMainPhase, 1.0f, false);
+		H3_Sound_Play(musicMainPhase, 1.0f, false);*/
 
 		printf("a!");
 	}

@@ -15,6 +15,7 @@ typedef struct
 	H3Handle cam;
 	H3Handle gameObject;
 	H3Handle scn;
+	H3Handle hideView;
 	float player_x;
 	float player_y;
 	float speed;
@@ -74,6 +75,8 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam, props->scn));
 		H3_Object_SetEnabled(props->kickObj, false);
 
+		props->hideView = H3_Object_Create2(props->scn, "hideView", object, 6);
+		H3_Object_AddComponent(props->hideView, SPRITECOMPONENT_CREATE("assets/hideView.png", A_Middle + A_Center));
 
 		props->init = false;
 	}
@@ -92,7 +95,20 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		{
 			int a = MonstereComponent_GetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject));
 			MonstereComponent_SetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject), a + 1);
-			H3_Object_Destroy(InventoryComponent_GetstockSelectedEx(object), true);
+			H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
+			int b = InventoryComponent_GetselectedEx(object); printf(" %d\n", b);
+			if (b == 1)
+			{
+				InventoryComponent_Setstock1Ex(object, NULL);
+			}
+			else if (b == 2)
+			{
+				InventoryComponent_Setstock2Ex(object, NULL);
+			}
+			else if (b == 3)
+			{
+				InventoryComponent_Setstock3Ex(object, NULL);
+			}
 		}
 
 		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEWEAPON_TYPEID) == true )

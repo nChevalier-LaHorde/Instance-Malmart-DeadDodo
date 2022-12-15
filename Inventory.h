@@ -11,6 +11,10 @@ void* InventoryComponent_CreateProperties(H3Handle player, H3Handle cam, H3Handl
 void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(InventoryComponent, H3Handle, stockSelected);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(InventoryComponent, H3Handle, stock1);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(InventoryComponent, H3Handle, stock2);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(InventoryComponent, H3Handle, stock3);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(InventoryComponent, int, selected);
 
 
 

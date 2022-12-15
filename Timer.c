@@ -113,5 +113,5 @@ void UpTimer(H3Handle h3, H3Handle object, SH3Transform* transform, float t, flo
 	H3_Object_SetTranslation(p->fatigueBarInline, p->cX + p->timeLagTiredness + 153, p->cY - 180);
 	H3_Object_SetTranslation(p->texts, p->cX - 300, p->cY - 180);
 	//printf("Time in game with monstere : %f\n", H3_GetTime() * 10/4);
-	/*printf("percent Tiredness : %f", p->percentTiredness);*/
+	printf("percent Tiredness : %f", p->percentTiredness);
 }
