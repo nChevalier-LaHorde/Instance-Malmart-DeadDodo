@@ -142,6 +142,137 @@ void Digide_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 typedef struct
 {
+	int* code;
+	bool rigthcode;
+	bool init;
+	H3Handle scene;
+	H3Handle digidesprite;
+	H3Handle parent;
+	H3Handle btnquit; bool isbtnquit; float btnquitx; float btnquity;
+	H3Handle btn1; bool isbtn1; float btn1x; float btn1y;
+	H3Handle btn2; bool isbtn2; float btn2x; float btn2y;
+	H3Handle btn3; bool isbtn3; float btn3x; float btn3y;
+	H3Handle btn4; bool isbtn4; float btn4x; float btn4y;
+	H3Handle btn5; bool isbtn5; float btn5x; float btn5y;
+	H3Handle btn6; bool isbtn6; float btn6x; float btn6y;
+	H3Handle btn7; bool isbtn7; float btn7x; float btn7y;
+	H3Handle btn8; bool isbtn8; float btn8x; float btn8y;
+	H3Handle btn9; bool isbtn9; float btn9x; float btn9y;
+	int try[4];
+	H3Handle nb[4];
+	int count;
+	int* code;
+	char nbname[5];
+	float w;
+	float h;
+} Digide_Properties;
+
+void* Digide_CreateProperties(H3Handle scene, int code[])
+{
+	Digide_Properties* properties = malloc(sizeof(Digide_Properties));
+	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
+	properties->init = false;
+	properties->init = true;
+	properties->scene = scene;
+	properties->parent = H3_Object_Create(scene, "parent", NULL);
+	properties->digidesprite = H3_Object_Create(scene, "digidesprite", properties->parent);
+	properties->btnquit = H3_Object_Create(scene, "btnquit", properties->parent);
+	properties->isbtnquit = false;
+	properties->btn1 = H3_Object_Create(scene, "btn1", properties->parent);
+	properties->isbtn1 = false;
+	properties->btn2 = H3_Object_Create(scene, "btn2", properties->parent);
+	properties->isbtn2 = false;
+	properties->btn3 = H3_Object_Create(scene, "btn3", properties->parent);
+	properties->isbtn3 = false;
+	properties->btn4 = H3_Object_Create(scene, "btn4", properties->parent);
+	properties->isbtn4 = false;
+	properties->btn5 = H3_Object_Create(scene, "btn5", properties->parent);
+	properties->isbtn5 = false;
+	properties->btn6 = H3_Object_Create(scene, "btn6", properties->parent);
+	properties->isbtn6 = false;
+	properties->btn7 = H3_Object_Create(scene, "btn7", properties->parent);
+	properties->isbtn7 = false;
+	properties->btn8 = H3_Object_Create(scene, "btn8", properties->parent);
+	properties->isbtn8 = false;
+	properties->btn9 = H3_Object_Create(scene, "btn9", properties->parent);
+	properties->isbtn9 = false;
+	for (int i = 0; i < 4; i++) {
+		snprintf(properties->nbname, 5, "nb%d", i);
+		properties->nb[i] = H3_Object_Create(scene, properties->nbname, properties->parent);
+	}
+	properties->count = 0;
+	properties->code = code;
+	return properties;
+}
+
+void Digide_Terminate(void* properties)
+{
+	free(properties);
+}
+
+void Digide_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties) {
+	Digide_Properties* props = (Digide_Properties*)properties;
+
+	if (props->init) {
+		H3_Object_AddComponent(props->digidesprite, SPRITECOMPONENT_CREATE("assets/digide.png", A_Center | A_Middle));
+		H3_Object_Translate(props->digidesprite, 960, 540);
+		H3_Object_AddComponent(props->btnquit, SPRITECOMPONENT_CREATE("assets/btnquit.png", A_Center | A_Middle));
+		H3_Object_Translate(props->btnquit, 1750, 50);
+		for (int i = 0; i < 9; i++) {
+			snprintf(props->spritebtn, 5, "assets/btnup%d.png", i);
+			H3_Object_AddComponent(props->btn[i], SPRITECOMPONENT_CREATE(props->spritebtn, A_Center | A_Middle));
+			H3_Object_Translate(props->btn[i], props->btncoor[i][1], props->btncoor[i][2]);
+		}
+		for (int i = 0; i < 4; i++) {
+			H3_Object_AddComponent(props->nb[i], SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Center | A_Middle));
+			H3_Object_Translate(props->nb[i], props->btncoor[i][1], props->btncoor[i][2]);
+		}
+		props->init = false;
+
+		H3_Transform_GetPosition(H3_Object_GetTransform(props->btnquit), &props->btnquitx, &props->btnquity);
+		props->isbtnquit = H3_Button(h3, SpriteComponent_GetTextureEx(props->btnquit), props->btnquitx, props->btnquity, A_Center | A_Middle);
+		for (int i = 0; i < 9; i++) {
+			props->isbtn[i] = H3_Button(h3, SpriteComponent_GetTextureEx(props->btn[i]), props->btncoor[i][1], props->btncoor[i][2], A_Center | A_Middle);
+		}
+	}
+
+
+	if (props->isbtnquit) {
+		H3_Object_Destroy(props->parent, true);
+		H3_Object_Destroy(object, true);
+	}
+
+	for (int i = 0; i < 9; i++) {
+		if (props->isbtn[i]) {
+			snprintf(props->name, 20, "assets/%d.png", i);
+			SpriteComponent_SetTextureEx(props->nb[props->count], H3_Texture_Load(props->name, &props->w, &props->h));
+			props->code[props->count] = i;
+			props->count += 1;
+		}
+	}
+
+
+	if (props->count == 4) {
+		if (props->try[1] == props->code[1] && props->try[2] == props->code[2] && props->try[3] == props->code[3] && props->try[3] == props->code[4]) {
+			props->rigthcode = true;
+			//changer le sprite du digicode avec un truc vert
+			//ajouter un son
+		}
+		else {
+			props->count = 0;
+			for (int i = 0; i < 4; i++) {
+				SpriteComponent_SetTextureEx(props->code[i], H3_Texture_Load("assets/nbnull.png", &props->w, &props->h));
+			}
+			//changer le sprite du digicode avec un truc rouge
+			//ajouter un son
+		}
+	}
+}*/
+
+
+
+typedef struct
+{
 	bool rigthcode;
 	bool init;
 	H3Handle scene;
@@ -239,15 +370,15 @@ void Digide_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_AddComponent(props->btn8, SPRITECOMPONENT_CREATE("assets/btnup8.png", A_Center | A_Middle));
 		H3_Object_Translate(props->btn8, 350, 595);
 		H3_Object_AddComponent(props->btn9, SPRITECOMPONENT_CREATE("assets/btnup9.png", A_Center | A_Middle));
-		H3_Object_Translate(props->btn9, 405, 595);
+		H3_Object_Translate(props->btn9, 1110, 790);
 		H3_Object_AddComponent(props->nb[0], SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Center | A_Middle));
-		H3_Object_Translate(props->nb[0], 300, 413);
+		H3_Object_Translate(props->nb[0], 815, 285);
 		H3_Object_AddComponent(props->nb[1], SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Center | A_Middle));
-		H3_Object_Translate(props->nb[1], 335, 413);
+		H3_Object_Translate(props->nb[1], 915, 285);
 		H3_Object_AddComponent(props->nb[2], SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Center | A_Middle));
-		H3_Object_Translate(props->nb[2], 370, 413);
+		H3_Object_Translate(props->nb[2], 1015, 285);
 		H3_Object_AddComponent(props->nb[3], SPRITECOMPONENT_CREATE("assets/nbnull.png", A_Center | A_Middle));
-		H3_Object_Translate(props->nb[3], 405, 413);
+		H3_Object_Translate(props->nb[3], 1115, 285);
 		props->init = false;
 	}
 	H3_Transform_GetPosition(H3_Object_GetTransform(props->btnquit), &props->btnquitx, &props->btnquity);
@@ -338,7 +469,6 @@ void Digide_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 			SpriteComponent_SetTextureEx(props->nb[1], H3_Texture_Load("assets/nbnull.png", &props->w, &props->h));
 			SpriteComponent_SetTextureEx(props->nb[2], H3_Texture_Load("assets/nbnull.png", &props->w, &props->h));
 			SpriteComponent_SetTextureEx(props->nb[3], H3_Texture_Load("assets/nbnull.png", &props->w, &props->h));
-			//changer les sprite des 4 nombres avec le sprite nbnull
 			//changer le sprite du digicode avec un truc rouge
 			//ajouter un son
 		}

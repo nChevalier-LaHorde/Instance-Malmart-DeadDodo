@@ -15,6 +15,7 @@
 #include <credit.h>
 #include <chooseCharacter.h>
 #include "Clue.h"
+#include "Watchman.h"
 
 
 #ifndef NDEBUG
@@ -76,7 +77,7 @@ int main(int argc, char** argv)
 	H3_Object_SetRenderOrder(mapLayer3, 4);
 
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
-	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x / 3, screen_y / 3));
+	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x /3, screen_y /3));
 
 	H3Handle gameObject = H3_Object_Create(scn, "second_obj", NULL);
 	H3_Object_AddComponent(gameObject, OBJECTCOMPONENT_CREATE(scn, h3, camera, &iWantThis));
@@ -107,10 +108,11 @@ int main(int argc, char** argv)
 
 
 
-	H3Handle digide = H3_Object_Create(scn, "digide", NULL);
-	H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code, player));
+	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
+	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code));
 
-
+	H3Handle zombie = H3_Object_Create(scn, "zombie", NULL);
+	H3_Object_AddComponent(zombie, WATCHMANCOMPONENT_CREATE(player, scn));
 
 	float a; float b;
 	do

@@ -33,6 +33,11 @@
     <ClInclude Include="TypeMonstere.h" />
     <ClInclude Include="TypeWeapon.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Digide.h" />
+    <ClInclude Include="AI.h" />
+    <ClInclude Include="CheckPointIA.h" />
+    <ClInclude Include="RayCast.h" />
+    <ClInclude Include="Watchman.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c" />
@@ -50,6 +55,11 @@
     <ClCompile Include="TypeMonstere.c" />
     <ClCompile Include="TypeWeapon.c" />
     <ClCompile Include="Weapon.c" />
+    <ClCompile Include="Digide.c" />
+    <ClCompile Include="AI.c" />
+    <ClCompile Include="CheckPointIA.c" />
+    <ClCompile Include="RayCast.c" />
+    <ClCompile Include="Watchman.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
