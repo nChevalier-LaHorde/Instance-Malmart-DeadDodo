@@ -17,6 +17,11 @@
 #include "Clue.h"
 #include "Watchman.h"
 
+// 436		1015
+// 309      788
+// 544		521
+// 632		354
+// 848		1180
 
 #ifndef NDEBUG
 # pragma comment(lib, "h3-s-d.lib")

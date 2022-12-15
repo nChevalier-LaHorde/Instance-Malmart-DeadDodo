@@ -66,6 +66,7 @@ void Player_Terminate(void* properties)
 void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties) {
 	Player_Properties* props = (Player_Properties*)properties;
 	H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->player_x, &props->player_y);
+	printf("playerX %f         playerY %f", props->player_x, props->player_y);
 	if (props->init) {
 		props->kickObj = H3_Object_Create2(props->scn, "kickObj", NULL, 3);
 		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 24, 22, A_Top, false));
