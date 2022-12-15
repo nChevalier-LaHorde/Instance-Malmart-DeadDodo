@@ -10,6 +10,7 @@ void MonstereComponent_Terminate(void* properties);
 void* MonstereComponent_CreateProperties(H3Handle obj);
 void UpMonstere(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(MonstereComponent, int, useMonstere);
 H3_CAPI_END_BLOCK
 
 

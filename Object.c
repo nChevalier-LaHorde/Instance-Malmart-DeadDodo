@@ -8,11 +8,15 @@
 #include "Monstere.h"
 #include "Clue.h"
 #include "Timer.h"
+#include "TypeWeapon.h"
+#include "TypeMonstere.h"
 
 typedef struct
 {
 	H3Handle monstere; H3Handle scn; H3Handle cam; float condition; int monstereEffect; int init;
 	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart; H3Handle weapon;
+	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3;
+
 
 } ObjectComponent_Properties;
 
@@ -40,6 +44,9 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->paperClue = H3_Object_Create(scn, "paperClue", NULL);
 	properties->weapon = H3_Object_Create(scn, "weapon", NULL);
 	properties->malmart = H3_Object_Create2(scn, "malmart", NULL, 2);
+	properties->monstereObj1 = H3_Object_Create(scn, "monstereObj1", NULL);
+	properties->monstereObj2 = H3_Object_Create(scn, "monstereObj2", NULL);
+	properties->monstereObj3 = H3_Object_Create(scn, "monstereObj3", NULL);
 
 
 
@@ -60,18 +67,47 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 		{
 			p->init = 1;
 			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
-			H3_Object_AddComponent(p->weapon, SPRITECOMPONENT_CREATE("assets/baguette.png", A_Center + A_Middle));
-			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
-		
+
+			H3_Object_AddComponent(p->weapon, SPRITECOMPONENT_CREATE("assets/baguette.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->weapon, TYPEWEAPON_CREATE());
 			H3_Object_EnablePhysics(p->weapon, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 			H3_Object_SetTranslation(p->weapon, 1050, 1000);
+
+			H3_Object_AddComponent(p->monstereObj1, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->monstereObj1, TYPEMONSTERE_CREATE());
+			H3_Object_EnablePhysics(p->monstereObj1, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
+			H3_Object_SetTranslation(p->monstereObj1, 1050, 900);
+
+			H3_Object_AddComponent(p->monstereObj2, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->monstereObj2, TYPEMONSTERE_CREATE());
+			H3_Object_EnablePhysics(p->monstereObj2, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
+			H3_Object_SetTranslation(p->monstereObj2, 1100, 900);
+
+			H3_Object_AddComponent(p->monstereObj3, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->monstereObj3, TYPEMONSTERE_CREATE());
+			H3_Object_EnablePhysics(p->monstereObj3, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
+			H3_Object_SetTranslation(p->monstereObj3, 1050, 800);
+
+			H3_Object_AddComponent(p->paperClue, SPRITECOMPONENT_CREATE("assets/trash.png", A_Center + A_Middle));
+			H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
+			H3_Object_EnablePhysics(p->paperClue, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
+			H3_Object_SetTranslation(p->paperClue, 785, 350);
+			
+			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
+			
+		
+			
+			
 
 			//H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
 		}
 		H3_Object_SetTranslation(p->malmart, 1260, 1050);
 		
 	}
+	
 }
 
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, monstere);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, monstereObj1);

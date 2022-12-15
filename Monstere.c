@@ -30,7 +30,7 @@ void* MonstereComponent_CreateProperties(H3Handle obj)
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 
 	properties->obj = obj;
-	properties->useMonstere = 3;
+	properties->useMonstere = 0;
 	properties->oneTime = 0;
 
 
@@ -58,5 +58,6 @@ void UpMonstere(H3Handle h3, H3Handle object, SH3Transform* transform, float t, 
 		ObjectComponent_SetmonstereEffectEx(p->obj, 0);
 	}
 
-	/*printf("Use monstere = %d /// One Time = %d\n", p->useMonstere, p->oneTime);*/
+	printf("Use monstere = %d /// One Time = %d\n", p->useMonstere, p->oneTime);
 }
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(MonstereComponent, MONSTERECOMPONENT_TYPEID, int, useMonstere);

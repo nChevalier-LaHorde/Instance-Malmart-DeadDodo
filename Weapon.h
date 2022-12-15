@@ -11,6 +11,8 @@ void* Weapon_CreateProperties(H3Handle cam, H3Handle scn);
 void WeaponOnCollision(H3Handle object, SH3Collision collision);
 void WeaponOnCollisionLeave(H3Handle object, SH3Collision collision);
 
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Weapon, bool, displayWeapon);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Weapon, H3Handle, weaponObj);
 H3_CAPI_END_BLOCK
 
 #define WEAPON_CREATE(CAM, SCN)														   \
