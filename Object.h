@@ -13,6 +13,7 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, int, monstereEffect);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, H3Handle, monstere);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, H3Handle, monstereObj1);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, H3Handle, door);
 
 H3_CAPI_END_BLOCK
 

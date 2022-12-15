@@ -8,6 +8,7 @@
 #include <components/textcomponent.h>
 #include "Player.h"
 #include "Clue.h"
+#include "TypeCanTake.h"
 typedef struct
 {
 	bool init;
@@ -132,28 +133,32 @@ void UpInventory(H3Handle h3, H3Handle object, SH3Transform* transform, float t,
 			{
 				ClueComponent_SetdisplayEx(Player_GetobjTouchEx(p->player), 1);
 			}
-			else if (p->stock1 == NULL && p->objRecup != NULL)
+			else if (H3_Object_HasComponent(Player_GetobjTouchEx(p->player), TYPECANTAKE_TYPEID))
 			{
+				if (p->stock1 == NULL && p->objRecup != NULL)
+				{
 
-				p->objRecup = Player_GetobjTouchEx(p->player);
-				H3_Object_SetRenderOrder(p->objRecup, 8);
-				p->stock1 = p->objRecup;
-			}
-			else if (p->stock2 == NULL && p->objRecup != NULL)
-			{
+					p->objRecup = Player_GetobjTouchEx(p->player);
+					H3_Object_SetRenderOrder(p->objRecup, 8);
+					p->stock1 = p->objRecup;
+				}
+				else if (p->stock2 == NULL && p->objRecup != NULL)
+				{
 
-				p->objRecup = Player_GetobjTouchEx(p->player);
-				H3_Object_SetRenderOrder(p->objRecup, 8);
-				p->stock2 = p->objRecup;
+					p->objRecup = Player_GetobjTouchEx(p->player);
+					H3_Object_SetRenderOrder(p->objRecup, 8);
+					p->stock2 = p->objRecup;
 
+				}
+				else if (p->stock3 == NULL && p->objRecup != NULL && Player_GetspotInventoryEx(object) == 3)
+				{
+					p->objRecup = Player_GetobjTouchEx(p->player);
+					H3_Object_SetRenderOrder(p->objRecup, 8);
+					p->stock3 = p->objRecup;
+					//H3_Object_SetTranslation(p->stock3, -p->camX / (1920 / 2), -p->camY / (1080 / 2));
+				}
 			}
-			else if (p->stock3 == NULL && p->objRecup != NULL && Player_GetspotInventoryEx(object) == 3)
-			{		
-				p->objRecup = Player_GetobjTouchEx(p->player);
-				H3_Object_SetRenderOrder(p->objRecup, 8);
-				p->stock3 = p->objRecup;
-				//H3_Object_SetTranslation(p->stock3, -p->camX / (1920 / 2), -p->camY / (1080 / 2));
-			}
+			
 
 
 

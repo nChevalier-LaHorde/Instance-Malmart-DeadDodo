@@ -69,6 +69,12 @@
     <ClInclude Include="Watchman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TypeCanTake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c">
@@ -126,6 +132,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Watchman.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeCanTake.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeKey.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

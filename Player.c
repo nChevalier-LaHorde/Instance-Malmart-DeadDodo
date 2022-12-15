@@ -6,6 +6,8 @@
 #include "Weapon.h"
 #include "TypeWeapon.h"
 #include "TypeMonstere.h"
+#include "TypeKey.h"
+#include "TypeCanTake.h"
 #include "Monstere.h"
 #include "Object.h"
 #include <Player.h>
@@ -108,6 +110,31 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 			else if (b == 3)
 			{
 				InventoryComponent_Setstock3Ex(object, NULL);
+			}
+		}
+		if (props->objTouch != NULL && props->playerOnCol >= 1)
+		{
+			if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEKEY_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
+			{
+				if(H3_Object_HasComponent(props->objTouch, TYPEKEY_TYPEID) == true)
+
+				{
+					H3_Object_SetEnabled( ObjectComponent_GetdoorEx(props->gameObject), false);
+					H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
+					int b = InventoryComponent_GetselectedEx(object);
+					if (b == 1)
+					{
+						InventoryComponent_Setstock1Ex(object, NULL);
+					}
+					else if (b == 2)
+					{
+						InventoryComponent_Setstock2Ex(object, NULL);
+					}
+					else if (b == 3)
+					{
+						InventoryComponent_Setstock3Ex(object, NULL);
+					}
+				}
 			}
 		}
 
@@ -229,7 +256,6 @@ void playerOnCollision(H3Handle obj, SH3Collision col)
 	SH3Component* component = H3_Object_GetComponent(obj, PLAYER_TYPEID);
 	Player_Properties* pe = (Player_Properties*)(component->properties);
 	if (col.other == NULL) {}
-
 
 	pe->objTouch = col.other;
 	pe->playerOnCol = 1;
