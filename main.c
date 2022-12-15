@@ -15,6 +15,7 @@
 #include <credit.h>
 #include <chooseCharacter.h>
 #include "Clue.h"
+#include "Watchman.h"
 
 
 #ifndef NDEBUG
@@ -30,10 +31,7 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 	int screen_x = 1920;
 	int screen_y = 1080;
-	int nbcode1 = rand() % 9 + 1;
-	int nbcode2 = rand() % 9 + 1;
-	int nbcode3 = rand() % 9 + 1;
-	int nbcode4 = rand() % 9 + 1;
+	int code[4] = { 4,7,3,6 };//{rand() % 9 + 1, rand() % 9 + 1, rand() % 9 + 1, rand() % 9 + 1};
 
 	H3Handle h3 = H3_Init((SH3InitParams) {
 		.width = screen_x,
@@ -79,7 +77,7 @@ int main(int argc, char** argv)
 	H3_Object_SetRenderOrder(mapLayer3, 4);
 
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
-	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x / 3, screen_y / 3));
+	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x , screen_y ));
 
 	H3Handle player = H3_Object_Create2(scn, "player", NULL, 3);
 	H3_Object_AddComponent(player, PLAYER_CREATE(camera, scn));
@@ -135,9 +133,10 @@ int main(int argc, char** argv)
 
 
 	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
-	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, nbcode1, nbcode2, nbcode3, nbcode4));
+	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code));
 
-
+	H3Handle zombie = H3_Object_Create(scn, "zombie", NULL);
+	H3_Object_AddComponent(zombie, WATCHMANCOMPONENT_CREATE(player, scn));
 
 	float a; float b;
 	do

@@ -48,6 +48,21 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Digide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckPointIA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Watchman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c">
@@ -84,6 +99,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Digide.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AI.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPointIA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Watchman.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
