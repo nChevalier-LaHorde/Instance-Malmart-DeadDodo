@@ -77,7 +77,7 @@ int main(int argc, char** argv)
 	H3_Object_SetRenderOrder(mapLayer3, 4);
 
 	H3Handle camera = H3_Object_Create(scn, "camera", NULL);
-	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x , screen_y ));
+	H3_Object_AddComponent(camera, CAMERACOMPONENT_CREATE(screen_x /3, screen_y /3));
 
 	H3Handle gameObject = H3_Object_Create(scn, "second_obj", NULL);
 	H3_Object_AddComponent(gameObject, OBJECTCOMPONENT_CREATE(scn, h3, camera, &iWantThis));
