@@ -89,14 +89,14 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 	
 	if(InventoryComponent_GetstockSelectedEx(object) != NULL)
 	{
-		printf("%s", InventoryComponent_GetstockSelectedEx(object));
+		/*printf("%s", InventoryComponent_GetstockSelectedEx(object));*/
 
 		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEMONSTERE_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
 		{
 			int a = MonstereComponent_GetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject));
 			MonstereComponent_SetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject), a + 1);
 			H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
-			int b = InventoryComponent_GetselectedEx(object); printf(" %d\n", b);
+			int b = InventoryComponent_GetselectedEx(object); 
 			if (b == 1)
 			{
 				InventoryComponent_Setstock1Ex(object, NULL);

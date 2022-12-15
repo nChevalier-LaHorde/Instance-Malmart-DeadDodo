@@ -23,6 +23,7 @@
     <ClInclude Include="ChooseCharacter.h" />
     <ClInclude Include="Clue.h" />
     <ClInclude Include="Credit.h" />
+    <ClInclude Include="Digide.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Monstere.h" />
     <ClInclude Include="Object.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="ChooseCharacter.c" />
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Credit.c" />
+    <ClCompile Include="Digide.c" />
     <ClCompile Include="Inventory.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Monstere.c" />

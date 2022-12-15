@@ -30,10 +30,7 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 	int screen_x = 1920;
 	int screen_y = 1080;
-	int nbcode1 = rand() % 9 + 1;
-	int nbcode2 = rand() % 9 + 1;
-	int nbcode3 = rand() % 9 + 1;
-	int nbcode4 = rand() % 9 + 1;
+	int code[4] = { 4,7,3,6 };//{rand() % 9 + 1, rand() % 9 + 1, rand() % 9 + 1, rand() % 9 + 1};
 
 	H3Handle h3 = H3_Init((SH3InitParams) {
 		.width = screen_x,
@@ -110,8 +107,8 @@ int main(int argc, char** argv)
 
 
 
-	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
-	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, nbcode1, nbcode2, nbcode3, nbcode4));
+	H3Handle digide = H3_Object_Create(scn, "digide", NULL);
+	H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code, player));
 
 
 

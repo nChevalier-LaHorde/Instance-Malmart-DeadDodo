@@ -54,6 +54,9 @@
     <ClInclude Include="TypeMonstere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Digide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TypeMonstere.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Digide.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

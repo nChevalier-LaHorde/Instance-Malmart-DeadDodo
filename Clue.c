@@ -46,7 +46,7 @@ void UpClue(H3Handle h3, H3Handle object, SH3Transform* transform, float t, floa
 	if (p->init == 0)
 	{
 		p->init = 1;
-		p->paper = H3_Object_Create2(p->scn, "paper", NULL, 6);
+		p->paper = H3_Object_Create2(p->scn, "paper", NULL, 8);
 
 
 		H3_Object_AddComponent(p->paper, SPRITECOMPONENT_CREATE("assets/CluePaper.png", A_Center + A_Middle));

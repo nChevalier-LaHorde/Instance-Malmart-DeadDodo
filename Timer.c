@@ -39,8 +39,8 @@ void* TimerComponent_CreateProperties(H3Handle scn, H3Handle cam, H3Handle objec
 	properties->objectc = objectc;
 	properties->cam = cam;
 	properties->texts = H3_Object_Create2(scn, "texts", NULL, 10);
-	properties->fatigueBarInline = H3_Object_Create2(scn, "fatigueBarInline", NULL, 5);
-	properties->fatigueBarOutline = H3_Object_Create2(scn, "fatigueBarOutline", NULL, 6);
+	properties->fatigueBarInline = H3_Object_Create2(scn, "fatigueBarInline", NULL, 8);
+	properties->fatigueBarOutline = H3_Object_Create2(scn, "fatigueBarOutline", NULL, 9);
 
 	properties->percentTiredness = 0;
 	properties->monstereEffect = 0;
@@ -92,12 +92,12 @@ void UpTimer(H3Handle h3, H3Handle object, SH3Transform* transform, float t, flo
 	if (H3_GetTime() - p->timerTiredness > 6 && p->monstereEffect == 0)
 	{
 		p->timerTiredness = H3_GetTime();
-		p->percentTiredness += 10;
+		p->percentTiredness += 1;
 	}
 	else if (H3_GetTime() - p->timerTiredness > 6 && p->monstereEffect == 1)
 	{
 		p->timerTiredness = H3_GetTime();
-		p->percentTiredness += 2.5;
+		p->percentTiredness += 0.25;
 	}
 	p->timeLagTiredness = 167 * p->percentTiredness / 100;
 	p->hours = (int)(((H3_GetTime() + 1260) - p->timeGameStart) / 60) % 24;
@@ -113,5 +113,5 @@ void UpTimer(H3Handle h3, H3Handle object, SH3Transform* transform, float t, flo
 	H3_Object_SetTranslation(p->fatigueBarInline, p->cX + p->timeLagTiredness + 153, p->cY - 180);
 	H3_Object_SetTranslation(p->texts, p->cX - 300, p->cY - 180);
 	//printf("Time in game with monstere : %f\n", H3_GetTime() * 10/4);
-	printf("percent Tiredness : %f", p->percentTiredness);
+	/*printf("percent Tiredness : %f", p->percentTiredness);*/
 }

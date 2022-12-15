@@ -15,7 +15,7 @@ typedef struct
 {
 	H3Handle monstere; H3Handle scn; H3Handle cam; float condition; int monstereEffect; int init;
 	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart; H3Handle weapon;
-	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3;
+	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3; H3Handle door; H3Handle useKeyDoor;
 
 
 } ObjectComponent_Properties;
@@ -47,6 +47,8 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->monstereObj1 = H3_Object_Create(scn, "monstereObj1", NULL);
 	properties->monstereObj2 = H3_Object_Create(scn, "monstereObj2", NULL);
 	properties->monstereObj3 = H3_Object_Create(scn, "monstereObj3", NULL);
+	properties->door = H3_Object_Create2(scn, "door", NULL, 2);
+	properties->useKeyDoor = H3_Object_Create(scn, "useKeyDoor", NULL);
 
 
 
@@ -94,6 +96,13 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 			H3_Object_EnablePhysics(p->paperClue, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 			H3_Object_SetTranslation(p->paperClue, 785, 350);
 			
+			H3_Object_AddComponent(p->door, SPRITECOMPONENT_CREATE("assets/door.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->door, H3_BOX_COLLIDER(CDT_Static, 50, 30, A_Top + A_Middle, false));
+			H3_Object_SetTranslation(p->door, 1072, 325);
+
+			H3_Object_EnablePhysics(p->useKeyDoor, H3_BOX_COLLIDER(CDT_Static, 60, 90, A_Center + A_Middle, true));
+			H3_Object_SetTranslation(p->useKeyDoor, 1072, 325);
+
 			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
 			
 		

@@ -16,7 +16,6 @@ H3_CAPI_END_BLOCK
 		.Init               = NULL,                                                        \
 		.Terminate          = TypeMonstere_Terminate,                                 \
 		.isInitialized      = false,													   \
-		.Update             = NoneUpdate2,                                                      \
 		.componentType      = TYPEMONSTERE_TYPEID,                                    \
 		.properties         = TypeMonstere_CreateProperties(),						   \
 	}
