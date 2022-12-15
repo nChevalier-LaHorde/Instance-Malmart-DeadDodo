@@ -15,19 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BootMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChooseCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Clue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Credit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Monstere.h">
@@ -54,6 +45,7 @@
     <ClInclude Include="TypeMonstere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Digide.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -67,23 +59,23 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Watchman.h">
+=======
+    <ClInclude Include="include\BootMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ChooseCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Inventory.h">
+>>>>>>> Stashed changes
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BootMenu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChooseCharacter.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Clue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Credit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Monstere.c">
@@ -113,6 +105,7 @@
     <ClCompile Include="TypeMonstere.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="Digide.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +119,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Watchman.c">
+=======
+    <ClCompile Include="src\ChooseCharacter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BootMenu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Inventory.c">
+>>>>>>> Stashed changes
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BootMenu.h" />
-    <ClInclude Include="ChooseCharacter.h" />
     <ClInclude Include="Clue.h" />
     <ClInclude Include="Credit.h" />
-    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="include\BootMenu.h" />
+    <ClInclude Include="include\ChooseCharacter.h" />
+    <ClInclude Include="include\Inventory.h" />
     <ClInclude Include="Monstere.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
@@ -39,15 +39,15 @@
     <ClInclude Include="Watchman.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BootMenu.c" />
-    <ClCompile Include="ChooseCharacter.c" />
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Credit.c" />
-    <ClCompile Include="Inventory.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Monstere.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="Player.c" />
+    <ClCompile Include="src\BootMenu.c" />
+    <ClCompile Include="src\ChooseCharacter.c" />
+    <ClCompile Include="src\Inventory.c" />
     <ClCompile Include="StartMenu.c" />
     <ClCompile Include="Timer.c" />
     <ClCompile Include="TypeMonstere.c" />
