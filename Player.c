@@ -2,13 +2,21 @@
 #include <stdio.h>
 #include <components/spritecomponent.h>
 #include <components/animatedspritecomponent.h>
+#include "Player.h"
 #include "Inventory.h"
 #include "Weapon.h"
 #include "TypeWeapon.h"
 #include "TypeMonstere.h"
 #include "Monstere.h"
 #include "Object.h"
-#include <Player.h>
+#include "TypeKey.h"
+#include "TypeCanTake.h"
+#include "TypeDigide.h"
+#include "TypeExit.h"
+#include "TypeExit2.h"
+#include "WeaponHit.h"
+#include "EndMenu.h"
+
 
 typedef struct
 {
@@ -16,6 +24,7 @@ typedef struct
 	H3Handle gameObject;
 	H3Handle scn;
 	H3Handle hideView;
+	H3Handle hitObj;
 	float player_x;
 	float player_y;
 	float speed;
@@ -33,12 +42,17 @@ typedef struct
 	bool isBoy;
 	int switchToWeapon;
 	bool couldHit;
+	bool iHitAI;
+
 } Player_Properties;
+
 
 void* Player_CreateProperties(H3Handle cam, H3Handle scn, H3Handle gameObject)
 {
 	Player_Properties* properties = malloc(sizeof(Player_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
+
+	properties->objTouch = NULL;
 	properties->speed = 200;
 	properties->run = 250;
 	properties->walk = 200;
@@ -51,6 +65,8 @@ void* Player_CreateProperties(H3Handle cam, H3Handle scn, H3Handle gameObject)
 	properties->couldHit = false;
 	properties->switchToWeapon = 0;
 	properties->gameObject = gameObject;
+	properties->hitObj = H3_Object_Create(scn, "hitObj", NULL);
+	properties->iHitAI = false;
 
 	return properties;
 }
@@ -61,22 +77,30 @@ void Player_Terminate(void* properties)
 	free(properties);
 }
 
-void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties) {
+
+void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties) 
+{
 	Player_Properties* props = (Player_Properties*)properties;
 	H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->player_x, &props->player_y);
+
 	if (props->init) {
 		props->kickObj = H3_Object_Create2(props->scn, "kickObj", NULL, 3);
 		H3_Object_EnablePhysics(object, H3_BOX_COLLIDER(CDT_Dynamic, 24, 22, A_Top, false));
 		props->isBoy ? H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/BoyFront.png", A_Center | A_Middle)) : H3_Object_AddComponent(object, SPRITECOMPONENT_CREATE("assets/GirlFront.png", A_Center | A_Middle));;
 		H3_Object_Translate(object, 960, 540);
 		H3_Object_AddComponent(props->kickObj, ANIMATEDSPRITECOMPONENT_CREATE("assets/kick.png", A_Center | A_Middle, 1, 0.1, false));
-		//H3_Object_EnablePhysics(props->kickObj, H3_CIRCLE_COLLIDER(2, 10, true));
 		H3_Object_AddComponent(object, WEAPON_CREATE(props->cam, props->scn));
 		H3_Object_AddComponent(object, INVENTORYCOMPONENT_CREATE(object, props->cam, props->scn));
+		
+		H3_Object_EnablePhysics(props->hitObj, H3_CIRCLE_COLLIDER(CDT_Dynamic, 20, true));
+		H3_Object_AddComponent(props->hitObj, HIT_CREATE());
 		H3_Object_SetEnabled(props->kickObj, false);
 
 		props->hideView = H3_Object_Create2(props->scn, "hideView", object, 6);
 		H3_Object_AddComponent(props->hideView, SPRITECOMPONENT_CREATE("assets/hideView.png", A_Middle + A_Center));
+
+		H3Handle alive = H3_Object_Create2(props->scn, "alive", NULL, 3);
+		H3_Object_AddComponent(object, ENDMENUCOMPONENT_CREATE(props->scn, props->cam));
 
 		props->init = false;
 	}
@@ -85,18 +109,17 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 
 	//------------------------------
-
+	props->iHitAI = false;
 	
 	if(InventoryComponent_GetstockSelectedEx(object) != NULL)
 	{
-		printf("%s", InventoryComponent_GetstockSelectedEx(object));
 
 		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEMONSTERE_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
 		{
 			int a = MonstereComponent_GetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject));
 			MonstereComponent_SetuseMonstereEx(ObjectComponent_GetmonstereEx(props->gameObject), a + 1);
 			H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
-			int b = InventoryComponent_GetselectedEx(object); printf(" %d\n", b);
+			int b = InventoryComponent_GetselectedEx(object);
 			if (b == 1)
 			{
 				InventoryComponent_Setstock1Ex(object, NULL);
@@ -111,9 +134,83 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 			}
 		}
 
+		if (props->objTouch != NULL && props->playerOnCol >= 1)
+		{
+			if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEKEY_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
+			{
+				if (H3_Object_HasComponent(props->objTouch, TYPEKEY_TYPEID) == true)
+
+				{
+					H3_Object_SetEnabled(ObjectComponent_GetdoorEx(props->gameObject), false);
+					H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
+					int b = InventoryComponent_GetselectedEx(object);
+					if (b == 1)
+					{
+						InventoryComponent_Setstock1Ex(object, NULL);
+					}
+					else if (b == 2)
+					{
+						InventoryComponent_Setstock2Ex(object, NULL);
+					}
+					else if (b == 3)
+					{
+						InventoryComponent_Setstock3Ex(object, NULL);
+					}
+				}
+			}
+
+			if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEEXIT_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
+			{
+				if (H3_Object_HasComponent(props->objTouch, TYPEEXIT_TYPEID) == true)
+
+				{
+					// SCENE WIN
+					H3_Object_SetEnabled(ObjectComponent_GetdoorEx(props->gameObject), false);
+					H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
+					int b = InventoryComponent_GetselectedEx(object);
+					if (b == 1)
+					{
+						InventoryComponent_Setstock1Ex(object, NULL);
+					}
+					else if (b == 2)
+					{
+						InventoryComponent_Setstock2Ex(object, NULL);
+					}
+					else if (b == 3)
+					{
+						InventoryComponent_Setstock3Ex(object, NULL);
+					}
+				}
+			}
+
+			if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEEXIT2_TYPEID) == true && H3_Input_IsMouseBtnPressed(MB_Left))
+			{
+				if (H3_Object_HasComponent(props->objTouch, TYPEEXIT2_TYPEID) == true)
+
+				{
+					// SCENE WIN
+					H3_Object_SetEnabled(ObjectComponent_GetdoorEx(props->gameObject), false);
+					H3_Object_SetEnabled(InventoryComponent_GetstockSelectedEx(object), false);
+					int b = InventoryComponent_GetselectedEx(object);
+					if (b == 1)
+					{
+						InventoryComponent_Setstock1Ex(object, NULL);
+					}
+					else if (b == 2)
+					{
+						InventoryComponent_Setstock2Ex(object, NULL);
+					}
+					else if (b == 3)
+					{
+						InventoryComponent_Setstock3Ex(object, NULL);
+					}
+				}
+			}
+
+		}
+
 		if (H3_Object_HasComponent(InventoryComponent_GetstockSelectedEx(object), TYPEWEAPON_TYPEID) == true )
 		{
-			printf("Good");
 			H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), true);
 			props->couldHit = true;
 		}
@@ -129,10 +226,21 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
 		props->couldHit = false;
 	}
+
+	if (props->objTouch != NULL)
+	{
+		if (H3_Object_HasComponent(props->objTouch, TYPEDIGIDE_TYPEID) == true && (H3_Input_IsKeyPressed(K_Space) || H3_Input_IsMouseBtnPressed(MB_Left)))
+		{
+			if (true == true)
+			{
+				H3_Object_SetEnabled(ObjectComponent_GetdoorDigideEx(props->gameObject), false);
+			}
+		}
+	}
+
 	if (InventoryComponent_GetstockSelectedEx(object) == NULL )
 	{
 
-		/*H3_Object_SetEnabled()*/
 		H3_Object_SetEnabled(Weapon_GetweaponObjEx(object), false);
 		props->couldHit = false;
 	}
@@ -153,6 +261,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyRight.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlRight.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, props->speed, 0);
 		H3_Object_SetTranslation(props->kickObj, props->player_x + 30, props->player_y);
+		H3_Object_SetTranslation(props->hitObj, props->player_x + 30, props->player_y);
 		props->lastKeyPress = 0;
 
 
@@ -161,6 +270,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyLeft.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlLeft.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, -props->speed, 0);
 		H3_Object_SetTranslation(props->kickObj, props->player_x - 30, props->player_y);
+		H3_Object_SetTranslation(props->hitObj, props->player_x - 30, props->player_y);
 		props->lastKeyPress = 1;
 
 	}
@@ -168,6 +278,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyFront.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlFront.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, 0, props->speed);
 		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y + 35);
+		H3_Object_SetTranslation(props->hitObj, props->player_x, props->player_y + 35);
 		props->lastKeyPress = 2;
 
 	}
@@ -175,6 +286,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 		props->isBoy ? SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/BoyBack.png", &props->w, &props->h)) : SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/GirlBack.png", &props->w, &props->h));
 		H3_Object_AddVelocity(object, 0, -props->speed);
 		H3_Object_SetTranslation(props->kickObj, props->player_x, props->player_y - 15);
+		H3_Object_SetTranslation(props->hitObj, props->player_x, props->player_y - 15);
 		props->lastKeyPress = 3;
 
 
@@ -182,7 +294,13 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 
 	if (H3_Input_IsMouseBtnPressed(MB_Left) && props->couldHit==true)
 	{
+		if (Hit_GetiAmOnCollisionWithAIEx(props->hitObj) == true)
+		{
+			props->iHitAI = true;
+		}
+
 		H3_Object_SetEnabled(props->kickObj, true);
+		
 		if (props->lastKeyPress == 0)
 		{
 			AnimatedSpriteComponent_SetTextureEx(props->kickObj, H3_Texture_Load("assets/kick.png", &props->w, &props->h));
@@ -253,8 +371,6 @@ void playerOnCollisionLeave(H3Handle obj, SH3Collision col)
 	pe->nbrObjTouch -= 1;
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO(Player, float, player_x);
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(Player, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, float, player_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, player_y);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, float, walk);
@@ -264,3 +380,4 @@ H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, bool, isBoy)
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, spotInventory);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, int, playerOnCol);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, PLAYER_TYPEID, H3Handle, objTouch);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, PLAYER_TYPEID, bool, iHitAI);

@@ -21,18 +21,6 @@ typedef struct
 
 } BootMenuComponent_Properties;
 
-void BootMenuComponent_Init(SH3Transform* transform, void** propertiesPtr)
-{
-    //    BootMenuComponent_Properties* props = (BootMenuComponent_Properties*)propertiesPtr;
-    //
-    //    // START-UP BOOT //
-    //    H3Handle bootLogoMenu = H3_Object_Create(props->h3, "bootLogoMenu", NULL);
-    //    H3_Object_AddComponent(bootLogoMenu, SPRITECOMPONENT_CREATE("assets/Boot/logo_horizontal_HD_1920x1080.png", 0x22));
-    //    H3_Object_SetRenderOrder(bootLogoMenu, 1);
-    //    H3_Object_EnablePhysics(bootLogoMenu, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
-    //    H3_Object_SetTranslation(bootLogoMenu, 0, 0);
-}
-
 void BootMenuComponent_Terminate(void* properties)
 {
     free(properties);
@@ -53,21 +41,18 @@ void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transf
             // LOGO LaHorde //
             props->bootLogoMenu = H3_Object_Create2(props->h3, "bootLogoMenu", NULL, 1);
             H3_Object_AddComponent(props->bootLogoMenu, SPRITECOMPONENT_CREATE("assets/Boot/LaHorde_HorrorTheme_720x480.png", 0x22));
-
             H3_Object_EnablePhysics(props->bootLogoMenu, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
             H3_Object_SetTranslation(props->bootLogoMenu, props->spawnPosX, props->spawnPosY);
 
             // LOGO CODE DU PROJET //
             props->bootLogoProjet = H3_Object_Create2(props->h3, "bootLogoProjet", NULL, 1);
             H3_Object_AddComponent(props->bootLogoProjet, SPRITECOMPONENT_CREATE("assets/Boot/CodeDuProjet_720x480.png", 0x22));
-
             H3_Object_EnablePhysics(props->bootLogoProjet, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
             H3_Object_SetTranslation(props->bootLogoProjet, props->spawnPosX + 1000, props->spawnPosY);
 
             // LOGO NAME TEAM //
             props->bootLogoNameTeam = H3_Object_Create2(props->h3, "bootLogoNameTeam", NULL, 1);
             H3_Object_AddComponent(props->bootLogoNameTeam, SPRITECOMPONENT_CREATE("assets/Boot/NomTeam_720x480.png", 0x22));
-
             H3_Object_EnablePhysics(props->bootLogoNameTeam, H3_BOX_COLLIDER(CDT_Dynamic, 8, 8, A_Center | A_Middle, false));
             H3_Object_SetTranslation(props->bootLogoNameTeam, props->spawnPosX + 1700, props->spawnPosY + 20);
         }
@@ -91,14 +76,8 @@ void BootMenuComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transf
 
         if (logoPosX <= -2500 && logoPosX != 0 && props->wayPoint == 0)   // Way point to set definition -> right 
         {
-            //props->wayPoint = 0;
             printf("Way Point : %d\n", props->wayPoint);
-            //BootMenuComponent_SetstateMenuEx(props->stateMenu, 3);
             props->wayPoint = 1;
-
-            /*H3_Object_SetTranslation(props->bootLogoMenu, props->spawnPosX, props->spawnPosY);
-            H3_Object_SetTranslation(props->bootLogoProjet, props->spawnPosX + 1000, props->spawnPosY);
-            H3_Object_SetTranslation(props->bootLogoNameTeam, props->spawnPosX + 1700, props->spawnPosY + 20);*/
         }
     }
 

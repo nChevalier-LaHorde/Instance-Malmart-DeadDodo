@@ -7,7 +7,6 @@
 H3_CAPI_BEGIN_BLOCK
 void TypeMonstere_Terminate(void* properties);
 void* TypeMonstere_CreateProperties();
-void NoneUpdate2(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties);
 
 H3_CAPI_END_BLOCK
 
@@ -16,7 +15,6 @@ H3_CAPI_END_BLOCK
 		.Init               = NULL,                                                        \
 		.Terminate          = TypeMonstere_Terminate,                                 \
 		.isInitialized      = false,													   \
-		.Update             = NoneUpdate2,                                                      \
 		.componentType      = TYPEMONSTERE_TYPEID,                                    \
 		.properties         = TypeMonstere_CreateProperties(),						   \
 	}

@@ -94,8 +94,6 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 	H3_Object_SetTranslation(p->btnPlayerChoose, p->cx, p->cy + 250);
 	H3_Object_SetTranslation(p->btnExit, p->cx + 850, p->cy + 400);
 
-	//printf("CAM : %f /// %f\n", p->cx, p->cy);
-	//printf("BTN : %f /// %f\n", p->x_BtnStart, p->y_BtnStart);
 	p->stateBtnStart = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnStart), p->x_BtnStart, p->y_BtnStart - 50, A_Center + A_Middle);
 	p->stateBtnPlayerChoose = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnPlayerChoose), p->x_BtnStart, p->y_BtnStart + 250, A_Center + A_Middle);
 	p->stateBtnExit = H3_Button(h3, SpriteComponent_GetTextureEx(p->btnExit), p->x_BtnStart + 850, p->y_BtnStart + 400, A_Center + A_Middle);
@@ -122,20 +120,18 @@ void UpSM(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float 
 	if (p->stateBtnStart)
 	{
 		////////////MUSIC////////////
-		/*H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
+		H3Handle musicMainTheme = H3_Music_Load("assets/Music/Malmart_main_theme_background.wav");
 		H3Handle musicMainPhase = H3_Music_Load("assets/Music/Malmart_main_theme_Phase.wav");
 		H3_Music_Play(musicMainTheme, 1.0f, true);
-		H3_Sound_Play(musicMainPhase, 1.0f, false);*/
-
-		printf("a!");
+		H3_Music_Play(musicMainPhase, 1.0f, false);
 	}
 	if (p->stateBtnPlayerChoose)
 	{
-		printf("BB");
+
 	}
 	if (p->stateBtnExit)
 	{
-		printf("EXIT");
+		
 	}
 
 }

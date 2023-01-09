@@ -1,51 +1,49 @@
-#include "AI.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
-#include<components/spritecomponent.h>
+#include <components/spritecomponent.h>
+#include "AI.h"
 #include "RayCast.h"
 #include "Watchman.h"
 #include "Player.h"
+#include "WeaponHit.h"
+#include "EndMenu.h"
+
 
 typedef struct
 {
 	int choose_dir;
-	time_t t;
 	float timer;
 	int go;
 	float zx; float zy; float rotate; float zvx; float zvy; char buffer[100]; int index;
 	float px; float py;
 	float dirx; float diry;
-	H3Handle scn; H3Handle player; H3Handle zombie;
+	H3Handle scn; H3Handle player; H3Handle watchman;
 	int speed_bullet;
-	float norme_b; int chase; int life_z; float speed_max; float speed; float norme; float timer_see; int first;
-	float d_t; int d_t1; float timer_kick; float sound_play; H3Handle sound_z;
+	float norme_b; int chase; float speed_max; float speed; float norme; float timer_see; int first;
+	float sound_play; H3Handle sound_z;
+	float w; float h;
+	bool stun; float timer_stun; float stun_duration;
+
+} AI_Properties;
 
 
-
-} AIComponent_Properties;
-
-
-int notd = 0;
-
-void AIComponent_Terminate(void* properties)
+void AI_Terminate(void* properties)
 {
-
 	free(properties);
 }
 
 
-
-void* AIComponent_CreateProperties(H3Handle scn, H3Handle player, H3Handle zombie)
+void* AI_CreateProperties(H3Handle scn, H3Handle player, H3Handle watchman)
 {
-	AIComponent_Properties* properties = malloc(sizeof(AIComponent_Properties));
+	AI_Properties* properties = malloc(sizeof(AI_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 
+	srand(time(NULL));
 
 	properties->choose_dir = 0;
-	srand(time(NULL));
 	properties->timer = H3_GetTime();
 	properties->go = 1;
 	properties->index = 0;
@@ -55,224 +53,178 @@ void* AIComponent_CreateProperties(H3Handle scn, H3Handle player, H3Handle zombi
 	properties->py = 832 / 2;
 	properties->chase = 0;
 	properties->player = player;
-	properties->life_z = 3;
-	properties->zombie = zombie;
+	properties->watchman = watchman;
 	properties->speed_max = 175;
 	properties->speed = 100;
 	properties->timer_see = H3_GetTime();
 	properties->first = 0;
-	properties->d_t1 = 0;
-	properties->timer_kick = H3_GetTime();
 	properties->sound_play = H3_GetTime();
-	properties->sound_z = H3_Sound_Load("assets/sound_z.wav"); // Joseph Sardin
+	properties->sound_z = H3_Sound_Load("assets/sound_z.wav");
+	properties->stun = false;
+	properties->timer_stun = H3_GetTime();
+	properties->stun_duration = 5;
 
 	return properties;
 }
 
-typedef struct
+
+void AI_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
 {
-	float px; float py; int sx; int sy; float vx; float vy; float mouvx; float mouvy; float speed_max; float norme;
-	float camx; float camy; float hc; float wc; float possx; float possy; float mw; float mh; float scalew; float scaleh;
-	H3Handle cam; int life;
+	AI_Properties* props = (AI_Properties*)properties;
 
-} PlayerComponent_Properties;
+	//test si le gardien est étourdit
+	if (props->stun) {
+		H3_Object_GetVelocity(object, &props->zvx, &props->zvy);
+		H3_Object_SetVelocity(object, props->zvx/1.06, props->zvy/1.06);
 
-void ColAI(H3Handle obj, SH3Collision col)
-{
-	SH3Component* component = H3_Object_GetComponent(obj, AICOMPONENT_TYPEID);
-	AIComponent_Properties* p = (AIComponent_Properties*)(component->properties);
-
-	if (col.other == NULL) {}
-
-	else if (H3_Object_HasComponent(col.other, PLAYER_TYPEID) && H3_GetTime() - p->timer_kick > 1)
-	{
-		p->timer_kick = H3_GetTime();
-		SH3Component* componentp = H3_Object_GetComponent(col.other, PLAYER_TYPEID);
-		PlayerComponent_Properties* pp = (PlayerComponent_Properties*)(componentp->properties);
-
-		pp->life -= 1;
-
+		//test si le gardien est étourdit depuis plus de stun_duration
+		if (H3_GetTime() - props->timer_stun > props->stun_duration) {
+			props->timer_stun = H3_GetTime();
+			props->stun = false;
+		}
 	}
 
+	//test si le gardien n'est pas étourdit
+	if (!props->stun) {
 
-
-}
-
-typedef struct
-{
-	H3Handle         Texture;
-	EH3Anchor Anchor;
-} SpriteComponent_Properties;
-
-void UpAI(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
-{
-	AIComponent_Properties* p = (AIComponent_Properties*)properties;
-
-	if (H3_GetTime() - p->sound_play > 5)
-	{
-		p->sound_play = H3_GetTime();
-		H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->zx, &p->zy);
-		H3_Sound_PlaySpatialized(p->sound_z, 50, p->zx, p->zy, false);
-	}
-
-
-
-	if (p->life_z == 0 && p->d_t1 == 0)
-	{
-		p->d_t1 = 1;
-
-		char buffer[100];
-		snprintf(buffer, 100, "DEAD%f", H3_GetTime());
-		H3Handle dead_z = H3_Object_Create2(p->scn, buffer, object, 0);
-
-		H3_Object_AddComponent(dead_z, SPRITECOMPONENT_CREATE("assets/dead_z.png", A_Middle + A_Center));
-		H3_Object_RemoveComponent(object, SPRITECOMPONENT_TYPEID);
-		H3_Object_DisablePhysics(object);
-
-		int okay = WatchmanComponent_Getcount_zkEx(p->zombie);
-		WatchmanComponent_Setcount_zkEx(p->zombie, okay + 1);
-		p->d_t = H3_GetTime();
-
-	}
-
-	if (p->d_t1 == 1)
-	{
-		if (H3_GetTime() - p->d_t > 10) { H3_Object_Destroy(object, true); }
-	}
-
-	if (p->d_t1 == 0)
-	{
-		if ((H3_GetTime() - p->timer > 10) || p->go == 1)
+		//permet au gardien de faire un bruit toutes les 5 secondes
+		if (H3_GetTime() - props->sound_play > 5)
 		{
-			p->go = 0;
-			p->timer = H3_GetTime();
-			p->choose_dir = rand() % 4;
+			props->sound_play = H3_GetTime();
+			H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->zx, &props->zy);
+			H3_Sound_PlaySpatialized(props->sound_z, 50, props->zx, props->zy, false);
+		}
 
-			H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->zx, &p->zy);
-			if (p->choose_dir == 0)
-			{
-				H3_Object_SetVelocity(object, p->speed, 0);
-				//p->dirx = 100+p->zx; p->diry = 0 + p->zy;
-				p->rotate = atan2((p->zy + 0 - p->zy), (p->zx + 100 - p->zx));
-				H3_Object_SetRotation(object, (p->rotate * (180 / 3.1415926535f) + 90));
+		// le gardien change de direction de déplacement aléatoirement toutes les 20 secondes
+		if ((H3_GetTime() - props->timer > 20) || props->go == 1)
+		{
+			props->go = 0;
+			props->timer = H3_GetTime();
+			props->choose_dir = rand() % 4;
 
-
-			}
-			else if (p->choose_dir == 1)
+			H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->zx, &props->zy);
+			if (props->choose_dir == 0)
 			{
-				H3_Object_SetVelocity(object, -p->speed, 0);
-				//p->dirx = -100 + p->zx; p->diry = 0 + p->zy;
-				p->rotate = atan2((p->zy - p->zy), (p->zx - 100 - p->zx));
-				H3_Object_SetRotation(object, (p->rotate * (180 / 3.1415926535f) + 90));
-			}
-			else if (p->choose_dir == 2)
-			{
-				H3_Object_SetVelocity(object, 0, p->speed);
-				//p->dirx = 0 + p->zx; p->diry = 100 + p->zy;
-				p->rotate = atan2((p->zy + 100 - p->zy), (p->zx + 0 - p->zx));
-				H3_Object_SetRotation(object, (p->rotate * (180 / 3.1415926535f) + 90));
+				H3_Object_SetVelocity(object, props->speed, 0);
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Right.png", &props->w, &props->h));
 
 			}
-			else if (p->choose_dir == 3)
+			else if (props->choose_dir == 1)
 			{
-				H3_Object_SetVelocity(object, 0, -p->speed);
-				//p->dirx = 0 + p->zx; p->diry = -100 + p->zy;
-				p->rotate = atan2((p->zy - 100 - p->zy), (p->zx - p->zx));
-				H3_Object_SetRotation(object, (p->rotate * (180 / 3.1415926535f) + 90));
+				H3_Object_SetVelocity(object, -props->speed, 0);
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Left.png", &props->w, &props->h));
+			}
+			else if (props->choose_dir == 2)
+			{
+				H3_Object_SetVelocity(object, 0, props->speed);
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Front.png", &props->w, &props->h));
+
+			}
+			else if (props->choose_dir == 3)
+			{
+				H3_Object_SetVelocity(object, 0, -props->speed);
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Back.png", &props->w, &props->h));
 			}
 		}
 
-		if (p->go == 2)
+		// si le gardien a detecté le joueur il se met à le poursuivre
+		if (props->go == 2)
 		{
 
-			H3_Object_GetVelocity(object, &p->zvx, &p->zvy);
+			H3_Object_GetVelocity(object, &props->zvx, &props->zvy);
 
-			H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->zx, &p->zy);
-			H3_Transform_GetPosition(H3_Object_GetTransform(p->player), &p->px, &p->py);
+			H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->zx, &props->zy);
+			H3_Transform_GetPosition(H3_Object_GetTransform(props->player), &props->px, &props->py);
 
-			p->norme = sqrt(pow(p->px - p->zx, 2) + pow(p->py - p->zy, 2));
-
-
-			H3_Object_SetVelocity(object, ((p->px - p->zx) / p->norme) * p->speed_max, ((p->py - p->zy) / p->norme) * p->speed_max);
+			props->norme = sqrt(pow(props->px - props->zx, 2) + pow(props->py - props->zy, 2));
 
 
-			p->rotate = atan2((p->py - p->zy), (p->px - p->zx));
-			H3_Object_SetRotation(object, (p->rotate * (180 / 3.1415926535f)) + 90);
+			H3_Object_SetVelocity(object, ((props->px - props->zx) / props->norme) * props->speed_max, ((props->py - props->zy) / props->norme) * props->speed_max);
 
+
+			props->rotate = atan2((props->py - props->zy), (props->px - props->zx));
+			if (props->rotate >= -0.8 && props->rotate <= 0.8) {
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Right.png", &props->w, &props->h));
+			}
+			else if (props->rotate > 2.3 || props->rotate < -2.3) {
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Left.png", &props->w, &props->h));
+			}
+			else if (props->rotate >= -2.3 && props->rotate < -0.8) {
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Back.png", &props->w, &props->h));
+			}
+			else if (props->rotate > 0.8 && props->rotate <= 2.3) {
+				SpriteComponent_SetTextureEx(object, H3_Texture_Load("assets/AI_Front.png", &props->w, &props->h));
+			}
 		}
 
 
-		H3_Object_GetVelocity(object, &p->zvx, &p->zvy);
+		H3_Object_GetVelocity(object, &props->zvx, &props->zvy);
 
-		if ((p->zvx < 99 && p->zvy < 99) && (p->zvx > -99 && p->zvy > -99))
+		if ((props->zvx < 99 && props->zvy < 99) && (props->zvx > -99 && props->zvy > -99))
 		{
-			p->go = 1;
-			p->chase = 0;
+			props->go = 1;
+			props->chase = 0;
 		}
 
 
-		H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->zx, &p->zy);
-		H3_Transform_GetPosition(H3_Object_GetTransform(p->player), &p->px, &p->py);
+		H3_Transform_GetPosition(H3_Object_GetTransform(object), &props->zx, &props->zy);
+		H3_Transform_GetPosition(H3_Object_GetTransform(props->player), &props->px, &props->py);
 
-
-		if (sqrt(pow(p->px - p->zx, 2) + pow(p->py - p->zy, 2)) < 250)
+		//test si le player est suffisement proche pour faire un raycast
+		if (sqrt(pow(props->px - props->zx, 2) + pow(props->py - props->zy, 2)) < 250)
 		{
-			////////////////////////////////////////////////////////////////////////////////
-			snprintf(p->buffer, 100, "ray%f", p->index + H3_GetTime());
-			H3Handle ray = H3_Object_Create2(p->scn, p->buffer, NULL, 3);
-			if (notd == 0)
+			snprintf(props->buffer, 100, "ray%f", props->index + H3_GetTime());
+			H3Handle ray = H3_Object_Create2(props->scn, props->buffer, NULL, 3);
+			H3_Object_AddComponent(ray, RAYCAST_CREATE(object));
 
-				//H3_Object_AddComponent(ray, SPRITECOMPONENT_CREATE("assets/fire.png", A_Middle | A_Center));
-				H3_Object_AddComponent(ray, RAYCASTCOMPONENT_CREATE(object));
-
-
-
-
-
-
-
-			if (p->chase == 1 && p->first == 0)
+			//test si le raycast a atteint le joueur
+			if (props->chase == 1 && props->first == 0)
 			{
-				p->first = 1;
-				p->go = 2;
-				p->timer_see = H3_GetTime();
-				p->chase = 0;
+				props->first = 1;
+				props->go = 2;
+				props->timer_see = H3_GetTime();
+				props->chase = 0;
 			}
 
-			else if (H3_GetTime() - p->timer_see > 1 && p->first == 1)
+			//test si le gardien a perdu le joueur de vue depuis plus de 1 seconde
+			else if (H3_GetTime() - props->timer_see > 1 && props->first == 1)
 			{
-				p->first = 0;
-				p->go = 0;
-				p->timer = 20;
+				props->first = 0;
+				props->go = 0;
+				props->timer = 20;
 			}
-
-
-
 
 			H3_Object_EnablePhysics(ray, H3_BOX_COLLIDER(2, 8, 8, A_Top | A_Middle, true));
+			H3_Transform_GetPosition(H3_Object_GetTransform(props->player), &props->dirx, &props->diry);
 
-			H3_Transform_GetPosition(H3_Object_GetTransform(p->player), &p->dirx, &p->diry);
-
-
-			p->norme_b = sqrt(pow((p->dirx - p->zx), 2) + pow((p->diry - p->zy), 2));
-			p->rotate = atan2((p->diry - p->zy), (p->dirx - p->zx));
-			H3_Object_SetRotation(ray, (p->rotate * (180 / 3.1415926535f)) + 90);
-
-
-			H3_Transform_GetPosition(H3_Object_GetTransform(object), &p->zx, &p->zy);
-
-
-			float degrees = atan2((p->diry - p->zy), (p->dirx - p->zx));
-			float x2 = ((p->zx + 50 - p->zx) * cos(degrees)) - ((p->zy - p->zy) * sin(degrees)) + p->zx;
-			float y2 = ((p->zx + 50 - p->zx) * sin(degrees)) + ((p->zy - p->zy) * cos(degrees)) + p->zy;
+			//calculs pour effectuer le raycast
+			props->norme_b = sqrt(pow((props->dirx - props->zx), 2) + pow((props->diry - props->zy), 2));
+			float degrees = atan2((props->diry - props->zy), (props->dirx - props->zx));
+			float x2 = ((props->zx + 50 - props->zx) * cos(degrees)) - ((props->zy - props->zy) * sin(degrees)) + props->zx;
+			float y2 = ((props->zx + 50 - props->zx) * sin(degrees)) + ((props->zy - props->zy) * cos(degrees)) + props->zy;
 			H3_Object_SetTranslation(ray, x2, y2);
 
-			H3_Object_SetVelocity(ray, ((p->dirx - p->zx) / p->norme_b) * p->speed_bullet, ((p->diry - p->zy) / p->norme_b) * p->speed_bullet);
-			p->index += 1;
-			//////////////////////////////////////////////////////////////////////////////
+			H3_Object_SetVelocity(ray, ((props->dirx - props->zx) / props->norme_b) * props->speed_bullet, ((props->diry - props->zy) / props->norme_b) * props->speed_bullet);
+			props->index += 1;
 		}
 	}
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(AIComponent, int, chase);
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(AIComponent, AICOMPONENT_TYPEID, int, chase);
+
+void AI_Collision(H3Handle obj, SH3Collision col)
+{
+	SH3Component* component = H3_Object_GetComponent(obj, AI_TYPEID);
+	AI_Properties* props = (AI_Properties*)(component->properties);
+
+	if (col.other == NULL)
+	{
+
+	}
+	else if (H3_Object_HasComponent(col.other, PLAYER_TYPEID))
+	{
+		EndMenuComponent_SetplayerAliveEx(col.other, false);
+	}
+}
+
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(AI, int, chase);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(AI, AI_TYPEID, int, chase);

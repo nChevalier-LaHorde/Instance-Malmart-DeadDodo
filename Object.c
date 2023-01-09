@@ -10,13 +10,23 @@
 #include "Timer.h"
 #include "TypeWeapon.h"
 #include "TypeMonstere.h"
+#include "TypeCanTake.h"
+#include "TypeKey.h"
+#include "TypeExit.h"
+#include "TypeExit2.h"
+#include "TypeDigide.h"
 
 typedef struct
 {
 	H3Handle monstere; H3Handle scn; H3Handle cam; float condition; int monstereEffect; int init;
 	H3Handle paperClue; H3Handle h3;  float cX; float cY; int* scnLunch; H3Handle malmart; H3Handle weapon;
-	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3;
+	H3Handle monstereObj1; H3Handle monstereObj2; H3Handle monstereObj3; H3Handle door; H3Handle useKeyHere; H3Handle doorKey;  H3Handle openDigide; H3Handle doorDigide;
+	H3Handle firstNumberClue; H3Handle secondNumberClue; H3Handle thirdNumberClue; H3Handle fourthNumberClue; H3Handle exit;
+	H3Handle keyExit; H3Handle exit2; H3Handle keyExit2;
 
+	int spawnRandomPos;
+	int randPosX;
+	int randPosY;
 
 } ObjectComponent_Properties;
 
@@ -47,8 +57,19 @@ void* ObjectComponent_CreateProperties(H3Handle scn, H3Handle h3, H3Handle cam, 
 	properties->monstereObj1 = H3_Object_Create(scn, "monstereObj1", NULL);
 	properties->monstereObj2 = H3_Object_Create(scn, "monstereObj2", NULL);
 	properties->monstereObj3 = H3_Object_Create(scn, "monstereObj3", NULL);
-
-
+	properties->door = H3_Object_Create2(scn, "door", NULL, 2);
+	properties->doorDigide = H3_Object_Create2(scn, "doorDigide", NULL, 2);
+	properties->useKeyHere = H3_Object_Create(scn, "useKeyCanTake", NULL);
+	properties->doorKey = H3_Object_Create2(scn, "doorKey", NULL, 2);
+	properties->firstNumberClue = H3_Object_Create2(scn, "firstNumberClue", NULL, 2);
+	properties->secondNumberClue = H3_Object_Create2(scn, "secondNumberClue", NULL, 2);
+	properties->thirdNumberClue = H3_Object_Create2(scn, "thirdNumberClue", NULL, 2);
+	properties->fourthNumberClue = H3_Object_Create2(scn, "fourthNumberClue", NULL, 2);
+	properties->openDigide = H3_Object_Create(scn, "openDigide", NULL);
+	properties->exit = H3_Object_Create(scn, "exit", NULL);
+	properties->exit2 = H3_Object_Create(scn, "exit2", NULL);
+	properties->keyExit = H3_Object_Create2(scn, "keyExit", NULL, 2);
+	properties->keyExit2 = H3_Object_Create2(scn, "keyExit2", NULL, 2);
 
 	properties->monstereEffect = 0;
 
@@ -66,41 +87,137 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 		if (p->init == 0)
 		{
 			p->init = 1;
+
+			// spawn table monstere
+			int tab[5][3] = {	{440, 970, 0}, // caisse
+								{309, 788, 0}, //box
+								{544, 521, 0}, // rayon
+								{660, 354, 0}, //haut
+								{880, 1180, 0} }; //bas 
+
+			int index = rand() % 4;
+
 			H3_Object_AddComponent(p->monstere, MONSTERECOMPONENT_CREATE(object));
+			H3_Object_AddComponent(p->monstere, TYPECANTAKE_CREATE());
 			H3_Object_AddComponent(p->monstere, TIMERCOMPONENT_CREATE(p->scn, p->cam, object));
 
 			H3_Object_AddComponent(p->weapon, SPRITECOMPONENT_CREATE("assets/baguette.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->weapon, TYPEWEAPON_CREATE());
+			H3_Object_AddComponent(p->weapon, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->weapon, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 			H3_Object_SetTranslation(p->weapon, 1050, 1000);
 
 			H3_Object_AddComponent(p->monstereObj1, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj1, TYPEMONSTERE_CREATE());
+			H3_Object_AddComponent(p->monstereObj1, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj1, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj1, 1050, 900);
+			H3_Object_SetTranslation(p->monstereObj1, tab[index][0], tab[index][1]);
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
 
 			H3_Object_AddComponent(p->monstereObj2, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj2, TYPEMONSTERE_CREATE());
+			H3_Object_AddComponent(p->monstereObj2, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj2, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj2, 1100, 900);
+			H3_Object_SetTranslation(p->monstereObj2, tab[index][0], tab[index][1]);
+			
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
 
 			H3_Object_AddComponent(p->monstereObj3, SPRITECOMPONENT_CREATE("assets/monstère.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->monstereObj3, TYPEMONSTERE_CREATE());
+			H3_Object_AddComponent(p->monstereObj3, TYPECANTAKE_CREATE());
 			H3_Object_EnablePhysics(p->monstereObj3, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
-			H3_Object_SetTranslation(p->monstereObj3, 1050, 800);
+			H3_Object_SetTranslation(p->monstereObj3, tab[index][0], tab[index][1]);
+			
+			tab[index][2] = 1;
+
+			index = rand() % 5;
+			while (tab[index][2] == 1)
+			{
+				index = rand() % 5;
+			}
+
 
 			H3_Object_AddComponent(p->paperClue, SPRITECOMPONENT_CREATE("assets/trash.png", A_Center + A_Middle));
 			H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
 			H3_Object_EnablePhysics(p->paperClue, H3_BOX_COLLIDER(2, 50, 50, A_Center + A_Middle, true));
 			H3_Object_SetTranslation(p->paperClue, 785, 350);
 			
+			H3_Object_AddComponent(p->door, SPRITECOMPONENT_CREATE("assets/door.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->door, H3_BOX_COLLIDER(CDT_Static, 50, 30, A_Top + A_Middle, false));
+			H3_Object_SetTranslation(p->door, 1072, 325);
+
+			H3_Object_EnablePhysics(p->useKeyHere, H3_BOX_COLLIDER(CDT_Static, 60, 90, A_Center + A_Middle, true));
+			H3_Object_AddComponent(p->useKeyHere, TYPEKEY_CREATE());
+			H3_Object_SetTranslation(p->useKeyHere, 1072, 325);
+
+			H3_Object_AddComponent(p->doorKey, SPRITECOMPONENT_CREATE("assets/key.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->doorKey, H3_BOX_COLLIDER(2, 50, 30, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->doorKey, TYPECANTAKE_CREATE());
+			H3_Object_AddComponent(p->doorKey, TYPEKEY_CREATE());
+			H3_Object_SetTranslation(p->doorKey, 900, 900);
+
+			H3_Object_AddComponent(p->doorDigide, SPRITECOMPONENT_CREATE("assets/door2.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->doorDigide, H3_BOX_COLLIDER(CDT_Static, 40, 10, A_Center + A_Middle, false));
+			H3_Object_SetTranslation(p->doorDigide, 340, 506);
+
+			H3_Object_EnablePhysics(p->openDigide, H3_BOX_COLLIDER(CDT_Static, 70, 50, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->openDigide, TYPEDIGIDE_CREATE());
+			H3_Object_SetTranslation(p->openDigide, 340, 530);
+
+			H3_Object_EnablePhysics(p->exit, H3_BOX_COLLIDER(CDT_Static, 70, 200, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->exit, TYPEEXIT_CREATE());
+			H3_Object_SetTranslation(p->exit, 50, 150);
+
+			H3_Object_EnablePhysics(p->exit2, H3_BOX_COLLIDER(CDT_Static, 70, 200, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->exit2, TYPEEXIT2_CREATE());
+			H3_Object_SetTranslation(p->exit2, 1270, 1260);
+
+			H3_Object_AddComponent(p->keyExit, SPRITECOMPONENT_CREATE("assets/key.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->keyExit, H3_BOX_COLLIDER(2, 50, 30, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->keyExit, TYPECANTAKE_CREATE());
+			H3_Object_AddComponent(p->keyExit, TYPEEXIT2_CREATE());
+			H3_Object_SetTranslation(p->keyExit, 800, 800);
+
+			H3_Object_AddComponent(p->keyExit2, SPRITECOMPONENT_CREATE("assets/key.png", A_Center + A_Middle));
+			H3_Object_EnablePhysics(p->keyExit2, H3_BOX_COLLIDER(2, 50, 30, A_Top + A_Middle, true));
+			H3_Object_AddComponent(p->keyExit2, TYPECANTAKE_CREATE());
+			H3_Object_AddComponent(p->keyExit2, TYPEEXIT_CREATE());
+			H3_Object_SetTranslation(p->keyExit2, 340, 400);
+
+			int code[4] = { 1,2,3,4 };
+
+			char buf[100];
+
+			snprintf(buf, 100, "assets/%d.png", code[3]);
+			H3_Object_AddComponent(p->firstNumberClue, SPRITECOMPONENT_CREATE(buf, A_Center + A_Middle));
+			H3_Object_SetTranslation(p->firstNumberClue, 527, 988);
+
+			snprintf(buf, 100, "assets/%d.png", code[1]);
+			H3_Object_AddComponent(p->secondNumberClue, SPRITECOMPONENT_CREATE(buf, A_Center + A_Middle));
+			H3_Object_SetTranslation(p->secondNumberClue, 617, 988);
+
+			snprintf(buf, 100, "assets/%d.png", code[0]);
+			H3_Object_AddComponent(p->thirdNumberClue, SPRITECOMPONENT_CREATE(buf, A_Center + A_Middle));
+			H3_Object_SetTranslation(p->thirdNumberClue, 722, 988);
+
+			snprintf(buf, 100, "assets/%d.png", code[2]);
+			H3_Object_AddComponent(p->fourthNumberClue, SPRITECOMPONENT_CREATE(buf, A_Center + A_Middle));
+			H3_Object_SetTranslation(p->fourthNumberClue, 914, 988);
+
 			H3_Object_AddComponent(p->malmart, SPRITECOMPONENT_CREATE("assets/magazin_enseigne.png", A_Center + A_Middle));
 			
-		
-			
-			
-
-			//H3_Object_AddComponent(p->paperClue, CLUECOMPONENT_CREATE(p->scn, p->h3, p->cam));
 		}
 		H3_Object_SetTranslation(p->malmart, 1260, 1050);
 		
@@ -111,3 +228,5 @@ void UpObject(H3Handle h3, H3Handle object, SH3Transform* transform, float t, fl
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, int, monstereEffect);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, monstere);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, monstereObj1);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, door);
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(ObjectComponent, OBJECTCOMPONENT_TYPEID, H3Handle, doorDigide);

@@ -16,6 +16,7 @@
 #include <chooseCharacter.h>
 #include "Clue.h"
 #include "Watchman.h"
+#include <EndMenu.h>
 
 
 #ifndef NDEBUG
@@ -35,16 +36,16 @@ int main(int argc, char** argv)
 
 	H3Handle h3 = H3_Init((SH3InitParams) {
 		.width = screen_x,
-			.height = screen_y,
-			.fullscreen = false,
-			.windowTitle = "Magazin",
+		.height = screen_y,
+		.fullscreen = false,
+		.windowTitle = "Night Shift",
 	});
 
 	int width = 100;
 	int height = 100;
 	bool scnTurn = true;
 	bool exitGame = true;
-	int iWantThis = 0; //Parameter to know which scene should be used
+	int iWantThis = 2; //Parameter to know which scene should be used
 
 	H3Handle scnFirstLunch = H3_Scene_Create(h3, true);
 	H3Handle scnMenu = H3_Scene_Create(h3, true);
@@ -85,6 +86,8 @@ int main(int argc, char** argv)
 	H3Handle player = H3_Object_Create2(scn, "player", NULL, 3);
 	H3_Object_AddComponent(player, PLAYER_CREATE(camera, scn, gameObject));
 
+	
+
 	bool stateWindow = true;
 
 	//// boot
@@ -109,12 +112,13 @@ int main(int argc, char** argv)
 
 
 	//H3Handle digide = H3_Object_Create(scn, "digide", NULL);
-	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code));
+	//H3_Object_AddComponent(digide, DIGIDE_CREATE(scn, code, player));
 
-	H3Handle zombie = H3_Object_Create(scn, "zombie", NULL);
-	H3_Object_AddComponent(zombie, WATCHMANCOMPONENT_CREATE(player, scn));
+	//// watchman
+	H3Handle watchman = H3_Object_Create(scn, "watchman", NULL);
+	H3_Object_AddComponent(watchman, WATCHMAN_CREATE(player, scn));
 
-	float a; float b;
+
 	do
 	{
 		exitGame = SMComponent_GetstateBtnExitEx(first_obj);

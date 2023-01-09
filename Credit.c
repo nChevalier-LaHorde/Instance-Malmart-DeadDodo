@@ -58,7 +58,6 @@ void CreditComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transfor
         if (creditLogoPosY <= -850 && creditLogoPosY != 0 && props->wayPoint == 0)
         {
             props->wayPoint = 1;
-            printf("Way Point : %d\n", props->wayPoint);
             H3_Object_SetTranslation(props->creditMenu, props->spawnCreditPosX, props->spawnCreditPosY);
         }
     }

@@ -60,13 +60,31 @@
     <ClInclude Include="AI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CheckPointIA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RayCast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Watchman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeCanTake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeDigide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeExit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeExit2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponHit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,13 +137,31 @@
     <ClCompile Include="AI.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CheckPointIA.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RayCast.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Watchman.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeCanTake.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeDigide.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeExit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeExit2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeKey.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponHit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndMenu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

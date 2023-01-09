@@ -25,5 +25,4 @@ H3_CAPI_END_BLOCK
 		.properties         = CharacterComponent_CreateProperties(H3, PLAYER)		\
 	}
 
-//ajouter en haut collisionenter / collisionleave = 
 #endif /* _H3_COMPONENTS_CHARACTERCOMPONENT_H_ */

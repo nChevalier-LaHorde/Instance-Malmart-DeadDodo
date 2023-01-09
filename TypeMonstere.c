@@ -25,8 +25,3 @@ void TypeMonstere_Terminate(void* properties)
 {
 	free(properties);
 }
-
-void NoneUpdate2(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
-{
-
-}

@@ -107,7 +107,6 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
     // UPDATE //
     if (props->stateMenu == 1 && props->init == 1)      //State menu = 1 -> Selection character
     {
-        printf("");
         // check mouse position
         int mousePosX, mousePosY;
         H3_Input_GetMousePos(h3, &mousePosX, &mousePosY);
@@ -125,9 +124,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
 
         else
         {
-            props->select = 0;/*
-            H3_Object_Destroy(props->boyDescription, false);
-            H3_Object_Destroy(props->girlDescription, false);*/
+            props->select = 0;
         }
         // when the button pressed
         props->boySelectButton = H3_Button(h3, SpriteComponent_GetTextureEx(props->boyCharacter), props->spawnBoyCharacterPosX, props->spawnBoyCharacterPosY, A_Left | A_Top);
@@ -182,7 +179,7 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             break;
 
             // effect apply
-// boy effect
+            // boy effect
         case 4:
             printf("boy character select %d\n", props->select);
             // animation exit select chamber character
@@ -222,7 +219,6 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
             Player_SetrunEx(props->player, 150);
             Player_SetspotInventoryEx(props->player, 3);
             Player_SetisBoyEx(props->player, false);
-
             break;
 
             // enable to start
@@ -233,29 +229,6 @@ void CharacterComponent_Update(H3Handle h3, H3Handle object, SH3Transform* trans
         default:
             break;
         }
-
-
-
-
-
-        //// animated character//
-        //float boyCharacterPosX, boyCharacterPosY;
-        //H3_Transform_GetPosition(H3_Object_GetTransform(props->boyCharacter), &boyCharacterPosX, &boyCharacterPosY);
-
-        //// Way point to set definition -> right to left
-        //if (props->wayPoint == 0)   
-        //{
-        //    H3_Object_SetVelocity(props->boyCharacter, props->speedX, props->speedY);
-        //    printf("print boy character");
-        //}
-        //if (boyCharacterPosX <= -850 && boyCharacterPosX !=0 && props->wayPoint == 0)
-        //{
-        //    props->wayPoint = 0;
-        //    printf("Way Point : %d\n", props->wayPoint);
-        //    H3_Object_SetTranslation(props->boyCharacter, props->spawnBoyCharacterPosX, props->spawnBoyCharacterPosY);
-        //}
-
-
     }
 }
 
@@ -270,7 +243,6 @@ void* CharacterComponent_CreateProperties(H3Handle h3, H3Handle player)
     properties->init = 0;
     properties->stateMenu = 1;
 
-    //
     properties->speedX = 0.0f;
     properties->speedY = -150.0f;
     properties->wayPoint = 0;

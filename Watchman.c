@@ -87,102 +87,98 @@ bool Watchman_RayCast(H3Handle scene, float vx, float vy, uint32_t id) {
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Watchman, WATCHMAN_TYPEID, float, watchman_x);
 H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Watchman, WATCHMAN_TYPEID, float, watchman_y);*/
 
-#include "Watchman.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <stdbool.h>
-#include <AI.h>
-#include <time.h>
-#include<components/spritecomponent.h>
-#include<components/textcomponent.h>
+#include <components/spritecomponent.h>
+#include "Watchman.h"
+#include "AI.h"
 #include "Player.h"
 
 typedef struct
 {
-	int index;
-	H3Handle player; H3Handle scn;
-	char buffer[100]; char bf[100];
-	float timer; float px; float py; time_t t; float spawnx; float spawny;
-	int life_z;
-	int count_zk; int zombie_mc;
-	bool ok;
-} WatchmanComponent_Properties;
+	H3Handle player;
+	H3Handle scn;
+	bool init;
+	bool wave;
+
+} Watchman_Properties;
 
 
-
-
-void WatchmanComponent_Terminate(void* properties)
+void Watchman_Terminate(void* properties)
 {
-
 	free(properties);
 }
 
 
-
-void* WatchmanComponent_CreateProperties(H3Handle player, H3Handle scn)
+void* Watchman_CreateProperties(H3Handle player, H3Handle scn)
 {
-	WatchmanComponent_Properties* properties = malloc(sizeof(WatchmanComponent_Properties));
+	Watchman_Properties* properties = malloc(sizeof(Watchman_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 
-	properties->index = 0;
-	properties->player = player;
-	properties->timer = H3_GetTime();
-	properties->scn = scn;
-	properties->px = 0;
-	properties->py = 0;
-	properties->count_zk = 0;
-	properties->zombie_mc = 0;
-	properties->ok = true;
-
 	srand(time(NULL));
+
+	properties->player = player;
+	properties->scn = scn;
+	properties->init = true;
+	properties->wave = false;
 
 	return properties;
 }
 
 
-
-
-void UpWatchman(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
+void Watchman_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
 {
+	Watchman_Properties* props = (Watchman_Properties*)properties;
 
-	WatchmanComponent_Properties* p = (WatchmanComponent_Properties*)properties;
-	H3_Transform_GetPosition(H3_Object_GetTransform(p->player), &p->px, &p->py);
-
-	if (H3_GetTime() - p->timer > 3 && p->zombie_mc - p->count_zk < 200 && p->ok)
+	//spawn de 3 gardiens aux début du jeu
+	if (props->init)
 	{
-		p->timer = H3_GetTime();
-		printf("spawn");
-		snprintf(p->buffer, 100, "zombie%d", p->index);
-		H3Handle zombie = H3_Object_Create2(p->scn, p->buffer, NULL, 3);
-		H3_Object_AddComponent(zombie, SPRITECOMPONENT_CREATE("assets/character.png", A_Middle | A_Center));
-		H3_Object_AddComponent(zombie, AICOMPONENT_CREATE(p->scn, p->player, object));
-		H3_Object_EnablePhysics(zombie, H3_BOX_COLLIDER(2, 50, 50, A_Top | A_Middle, false));
+		H3Handle watchman1 = H3_Object_Create2(props->scn, "watchman1", NULL, 3);
+		H3_Object_AddComponent(watchman1, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman1, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman1, H3_BOX_COLLIDER(2, 24, 22, A_Top , false));
+		H3_Object_SetTranslation(watchman1, 900, 900);
 
-		H3_Transform_GetPosition(H3_Object_GetTransform(p->player), &p->px, &p->py);
-		p->spawnx = 900;
-		p->spawny = 900;
-		/*if (sqrt(pow(p->px - p->spawnx, 2), pow(p->py - p->spawny, 2)) < 1000)
-		{
-			printf("change ^spawn\n");
-			p->spawnx = rand() % 4750 + 32;
-			p->spawny = rand() % 3150 + 32;
-		}
-		else if (sqrt(pow(p->px - p->spawnx, 2), pow(p->py - p->spawny, 2)) > 500)
-		{
-			H3_Object_SetTranslation(zombie, p->spawnx, p->spawny);
-		}*/
+		H3Handle watchman2 = H3_Object_Create2(props->scn, "watchman2", NULL, 3);
+		H3_Object_AddComponent(watchman2, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman2, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman2, H3_BOX_COLLIDER(2, 24, 22, A_Top, false));
+		H3_Object_SetTranslation(watchman2, 900, 900);
 
-		H3_Object_SetTranslation(zombie, p->spawnx, p->spawny);
+		H3Handle watchman3 = H3_Object_Create2(props->scn, "watchman3", NULL, 3);
+		H3_Object_AddComponent(watchman3, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman3, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman3, H3_BOX_COLLIDER(2, 24, 22, A_Top, false));
+		H3_Object_SetTranslation(watchman3, 900, 900);
 
-		p->zombie_mc += 1;
-		p->index += 1;
-		p->ok = false;
+		props->init = false;
 	}
 
+	//spawn de 3 gardiens de plus lorsque le player a dévérouillé la porte
+	if (props->wave) {
 
+		H3Handle watchman4 = H3_Object_Create2(props->scn, "watchman4", NULL, 3);
+		H3_Object_AddComponent(watchman4, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman4, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman4, H3_BOX_COLLIDER(2, 24, 22, A_Top, false));
+		H3_Object_SetTranslation(watchman4, 900, 900);
 
+		H3Handle watchman5 = H3_Object_Create2(props->scn, "watchman5", NULL, 3);
+		H3_Object_AddComponent(watchman5, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman5, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman5, H3_BOX_COLLIDER(2, 24, 22, A_Top, false));
+		H3_Object_SetTranslation(watchman5, 900, 900);
+
+		H3Handle watchman6 = H3_Object_Create2(props->scn, "watchman6", NULL, 3);
+		H3_Object_AddComponent(watchman6, SPRITECOMPONENT_CREATE("assets/AI_Front.png", A_Middle | A_Center));
+		H3_Object_AddComponent(watchman6, AI_CREATE(props->scn, props->player, object));
+		H3_Object_EnablePhysics(watchman6, H3_BOX_COLLIDER(2, 24, 22, A_Top, false));
+		H3_Object_SetTranslation(watchman6, 900, 900);
+
+		props->wave = true;
+	}
 }
 
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW(WatchmanComponent, int, count_zk);
-H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(WatchmanComponent, WATCHMANCOMPONENT_TYPEID, int, count_zk);
+
+H3_DEFINE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Watchman, WATCHMAN_TYPEID, bool, wave);

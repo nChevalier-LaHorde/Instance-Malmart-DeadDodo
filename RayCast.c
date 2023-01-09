@@ -162,100 +162,66 @@ void RayCastComponent_Update(H3Handle h3, H3Handle object, SH3Transform* transfo
 	}
 }*/
 
-#include "Raycast.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
-#include<components/spritecomponent.h>
+#include <components/spritecomponent.h>
+#include "Raycast.h"
+#include "AI.h"
 #include "Watchman.h"
 #include "Player.h"
-#include "AI.h"
+
 
 typedef struct
 {
-	int destroyer;
+	bool destroy;
+	H3Handle watchman;
 
-	H3Handle zombie;
-
-
-} RayCastComponent_Properties;
+} RayCast_Properties;
 
 
-
-
-void RayCastComponent_Terminate(void* properties)
+void* RayCast_CreateProperties(H3Handle watchman)
 {
-
-	free(properties);
-}
-
-
-
-void* RayCastComponent_CreateProperties(H3Handle zombie)
-{
-	RayCastComponent_Properties* properties = malloc(sizeof(RayCastComponent_Properties));
+	RayCast_Properties* properties = malloc(sizeof(RayCast_Properties));
 	H3_ASSERT_CONSOLE(properties, "Failed to allocate properties");
 
-
-	properties->destroyer = 0;
-	properties->zombie = zombie;
-
+	properties->destroy = false;
+	properties->watchman = watchman;
 
 	return properties;
 }
 
-typedef struct
+
+void RayCast_Terminate(void* properties)
 {
-	int choose_dir;
-	time_t t;
-	float timer;
-	int go;
-	float zx; float zy; float rotate; float zvx; float zvy; char buffer[100]; int index;
-	float px; float py;
-	float dirx; float diry;
-	H3Handle scn; H3Handle player; H3Handle zombie;
-	int speed_bullet;
-	float norme_b; int chase; int life_z;
+	free(properties);
+}
 
 
-
-} AIComponent_Properties;
-
-
-
-
-void ColR(H3Handle obj, SH3Collision col)
+void RayCast_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
 {
-	SH3Component* component = H3_Object_GetComponent(obj, RAYCASTCOMPONENT_TYPEID);
-	RayCastComponent_Properties* pe = (RayCastComponent_Properties*)(component->properties);
+	RayCast_Properties* props = (RayCast_Properties*)properties;
+
+	if (props->destroy)
+	{
+		H3_Object_Destroy(object, false);
+	}
+}
 
 
+void RayCast_Collision(H3Handle obj, SH3Collision col)
+{
+	SH3Component* component = H3_Object_GetComponent(obj, RAYCAST_TYPEID);
+	RayCast_Properties* props = (RayCast_Properties*)(component->properties);
 
-
-	pe->destroyer = 1;
 	if (col.other == NULL)
 	{
-
+		props->destroy = true;
 	}
 	else if (H3_Object_HasComponent(col.other, PLAYER_TYPEID))
 	{
-		AIComponent_SetchaseEx(pe->zombie, 1);
-	}
-
-
-
-
-}
-
-void UpR(H3Handle h3, H3Handle object, SH3Transform* transform, float t, float dt, void* properties)
-{
-	RayCastComponent_Properties* p = (RayCastComponent_Properties*)properties;
-
-
-
-	if (p->destroyer == 1)
-	{
-		H3_Object_Destroy(object, false);
+		AI_SetchaseEx(props->watchman, 1);
+		props->destroy = true;
 	}
 }

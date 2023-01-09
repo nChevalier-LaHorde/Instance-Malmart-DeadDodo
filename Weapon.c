@@ -75,13 +75,10 @@ void WeaponOnCollision(H3Handle obj, SH3Collision col)
 {
 	SH3Component* component = H3_Object_GetComponent(obj, WEAPON_TYPEID);
 	Weapon_Properties* pe = (Weapon_Properties*)(component->properties);
-	if (col.other == NULL) {}
-
-	else
+	if (col.other == NULL) 
 	{
-		printf("I hit this mother fucker \n\n\n\n\n");
-	}
 
+	}
 }
 
 

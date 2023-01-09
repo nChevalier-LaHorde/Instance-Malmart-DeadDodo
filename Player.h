@@ -10,8 +10,7 @@ void Player_Update(H3Handle h3, H3Handle object, SH3Transform* transform, float 
 void* Player_CreateProperties(H3Handle cam, H3Handle scn, H3Handle gameObject);
 void playerOnCollision(H3Handle object, SH3Collision collision);
 void playerOnCollisionLeave(H3Handle object, SH3Collision collision);
-H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RO(Player, float, player_x);
-H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW(Player, float, player_y);
+
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, float, player_x);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, float, player_y);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, float, walk);
@@ -21,6 +20,7 @@ H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, bool, isBoy);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, int, spotInventory);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, int, playerOnCol);
 H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RW_EX(Player, H3Handle, objTouch);
+H3_DECLARE_COMPONENT_PROPERTY_ACCESSORS_RO_EX(Player, bool, iHitAI);
 H3_CAPI_END_BLOCK
 
 #define PLAYER_CREATE(CAM, SCN, GAMEOBJECT)														   \

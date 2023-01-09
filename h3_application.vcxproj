@@ -23,26 +23,33 @@
     <ClInclude Include="ChooseCharacter.h" />
     <ClInclude Include="Clue.h" />
     <ClInclude Include="Credit.h" />
+    <ClInclude Include="EndMenu.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Monstere.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TypeCanTake.h" />
+    <ClInclude Include="TypeDigide.h" />
+    <ClInclude Include="TypeExit.h" />
+    <ClInclude Include="TypeExit2.h" />
+    <ClInclude Include="TypeKey.h" />
     <ClInclude Include="TypeMonstere.h" />
     <ClInclude Include="TypeWeapon.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Digide.h" />
     <ClInclude Include="AI.h" />
-    <ClInclude Include="CheckPointIA.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="Watchman.h" />
+    <ClInclude Include="WeaponHit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BootMenu.c" />
     <ClCompile Include="ChooseCharacter.c" />
     <ClCompile Include="Clue.c" />
     <ClCompile Include="Credit.c" />
+    <ClCompile Include="EndMenu.c" />
     <ClCompile Include="Inventory.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Monstere.c" />
@@ -50,14 +57,19 @@
     <ClCompile Include="Player.c" />
     <ClCompile Include="StartMenu.c" />
     <ClCompile Include="Timer.c" />
+    <ClCompile Include="TypeCanTake.c" />
+    <ClCompile Include="TypeDigide.c" />
+    <ClCompile Include="TypeExit.c" />
+    <ClCompile Include="TypeExit2.c" />
+    <ClCompile Include="TypeKey.c" />
     <ClCompile Include="TypeMonstere.c" />
     <ClCompile Include="TypeWeapon.c" />
     <ClCompile Include="Weapon.c" />
     <ClCompile Include="Digide.c" />
     <ClCompile Include="AI.c" />
-    <ClCompile Include="CheckPointIA.c" />
     <ClCompile Include="RayCast.c" />
     <ClCompile Include="Watchman.c" />
+    <ClCompile Include="WeaponHit.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

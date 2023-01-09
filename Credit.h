@@ -25,5 +25,4 @@ H3_CAPI_END_BLOCK
 		.properties         = CreditComponent_CreateProperties(H3, STATEMENU)		\
 	}
 
-//ajouter en haut collisionenter / collisionleave = 
 #endif /* _H3_COMPONENTS_CREDITCOMPONENT_H_ */
